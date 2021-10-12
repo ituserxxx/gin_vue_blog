@@ -9,8 +9,9 @@ import (
 
 func LoadAdminRoutes(r *gin.Engine) {
 	prefix := g.Config().GetString("app.BlogAdminBaseUrl")
+	r.Use(middleware.CorsMiddleware(), middleware.Visitor())
 	r.POST(prefix+"/user/login", Admin.LoginApi.AdminLogin)
-	r.Use(middleware.CorsMiddleware(), middleware.Visitor(), middleware.Jwt())
+	r.Use(middleware.Jwt())
 	api := r.Group(prefix)
 	{
 		api.POST("/xx", Admin.XxxApi.Golist)
