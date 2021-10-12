@@ -1,0 +1,57 @@
+[app]
+timeFormat="2006-01-02 15:04:05"
+jwtSecret="gin-blog"
+tokenTimeout=28800 # 单位秒，这里是8小时
+staticBasePath="static"
+uploadBasePath="upload"
+imageRelPath="images"
+avatarRelPath="avatar"
+BlogBaseUrl="/blog/"
+BlogAdminBaseUrl="/admin/"
+[server]
+runMode="debug"
+serverAddr="127.0.0.1:1002"
+readTimeout=60
+writeTimeout=60
+[database]
+mode="mysql"
+host="127.0.0.1"
+port="3306"
+user="root"
+password="root"
+dbName="gin_vue_blog"
+prefix="blog_"
+# 设置连接池中的最大闲置连接数
+# 如果大于最大开启连接数，则新的最大闲置连接数会减小到匹配最大开启连接数的限制
+# 如果 <= 0，不会保留闲置连接
+max_idle_conns=10
+# 设置与数据库建立连接的最大数目
+# 如果大于0且小于最大闲置连接数，会将最大闲置连接数减小到匹配最大开启连接数的限制。
+# 如果 <= 0，不会限制最大开启连接数，默认为0（无限制）
+max_open_conns=50
+# 一个连接的最大时长，单位秒
+conn_max_life_time=60
+
+[redis]
+open=false
+host="127.0.0.1"
+port="6379"
+password="" # 无密码则填写""
+db=0
+cacheTime=30  # 设置缓存时间，单位秒
+[es]
+enable=false  # 是否开启es搜索文章
+host="127.0.0.1"
+port="9200"
+index="blog"
+[mail]
+enable=false  # 是否开启评论邮件通知
+host="smtp.163.com"
+port=25
+user="XXXXX@163.com"
+pass="PASSWORD"
+receiver="XXXXX@163.com"
+
+[jwt]
+SignKey="ginvueblogjwt"
+
