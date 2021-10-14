@@ -15,7 +15,7 @@ readTimeout=60
 writeTimeout=60
 [database]
 mode="mysql"
-host="127.0.0.1"
+host="mysql8"
 port="3306"
 user="root"
 password="root"
