@@ -24,7 +24,7 @@ services:
           ipv4_address: 172.25.0.2
     blog_api_server:
       image: blog_gin_api
-      container_name: blog_api_server
+      container_name: blog_api_server_cn
       restart: on-failure
       ports:
         - '6008:6008'
