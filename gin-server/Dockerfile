@@ -10,7 +10,7 @@ ENV GO111MODULE=on \
 WORKDIR /build
 
 # 将代码复制到容器中
-COPY .. .
+COPY . .
 
 # 设置 GOPROXY 环境变量
 ENV GOPROXY="https://goproxy.cn"
