@@ -9,7 +9,7 @@ services:
       restart: always
       volumes:
         - ./docker/mysql/data:/var/lib/mysql
-        - ./docker/conf.d:/etc/mysql/conf.d
+        - ./docker/mysql/conf.d:/etc/mysql/conf.d
       command:
         --character-set-server=utf8mb4
         --collation-server=utf8mb4_general_ci
