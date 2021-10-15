@@ -19,9 +19,9 @@ services:
         - TZ=Asia/Shanghai
         - LANG=C.UTF-8
         - MYSQL_ROOT_PASSWORD=root
-    blog_api_server:
+    blog_api:
       image: blog_gin_api
-      container_name: blog_api_server_cn
+      container_name: blog_api_cn
       restart: on-failure
       ports:
         - '6008:6008'
