@@ -36,5 +36,5 @@ services:
 networks:
   default:
     external:
-      name: blog_api_net
+      name: blog_api
 
