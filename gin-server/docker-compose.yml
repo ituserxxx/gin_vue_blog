@@ -3,7 +3,7 @@ version: '3'
 services:
     blog_mysql:
       image: mysql:8
-      container_name: blog_mysql
+      container_name: blog_mysql_cn
       ports:
         - 33062:3306
       restart: always
