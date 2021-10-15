@@ -21,7 +21,7 @@ services:
         - MYSQL_ROOT_PASSWORD=root
       networks:
         default:
-          ipv4_address: 172.25.0.2
+          ipv4_address: 172.25.0.1
     blog_api_server:
       image: blog_gin_api
       container_name: blog_api_server_cn
@@ -32,9 +32,9 @@ services:
         - blog_mysql
       networks:
         default:
-          ipv4_address: 0.0.0.0:6008
+          ipv4_address: 0.0.0.0/6008
 networks:
   default:
     external:
-      name: blog_api
+      name: blog_api_net
 
