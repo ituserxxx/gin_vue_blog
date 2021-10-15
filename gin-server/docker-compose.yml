@@ -19,6 +19,9 @@ services:
         - TZ=Asia/Shanghai
         - LANG=C.UTF-8
         - MYSQL_ROOT_PASSWORD=root
+      networks:
+        default:
+          ipv4_address: 172.10.0.31
     blog_api:
       image: blog_gin_api
       container_name: blog_api
@@ -27,5 +30,11 @@ services:
         - '6008:6008'
       depends_on:
         - blog_mysql
-
+      networks:
+        default:
+          ipv4_address: 172.10.0.31
+networks:
+  default:
+    external:
+      name: blog_api
 
