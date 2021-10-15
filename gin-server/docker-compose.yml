@@ -1,0 +1,30 @@
+version: '3'
+
+services:
+    blog_mysql:
+      image: mysql:8
+      container_name: blog_mysql
+      ports:
+        - 33062:3306
+      restart: always
+      volumes:
+        - ./docker/mysql/data:/var/lib/mysql
+        - ./docker/conf.d:/etc/mysql/conf.d
+      command:
+        --character-set-server=utf8mb4
+        --collation-server=utf8mb4_general_ci
+        --explicit_defaults_for_timestamp=true
+        --default-authentication-plugin=mysql_native_password
+      environment:
+        - TZ=Asia/Shanghai
+        - LANG=C.UTF-8
+        - MYSQL_ROOT_PASSWORD=root
+    blog_api:
+      image: blog_gin_api
+      container_name: blog_api
+      ports:
+        - '6008:6008'
+      depends_on:
+        - blog_mysql
+
+
