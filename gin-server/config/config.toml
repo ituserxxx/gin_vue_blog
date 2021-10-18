@@ -10,7 +10,7 @@ BlogBaseUrl="/blog/"
 BlogAdminBaseUrl="/admin/"
 [server]
 runMode="debug"
-serverAddr="blog_mysql:6008"
+serverAddr="0.0.0.0:6008"
 readTimeout=60
 writeTimeout=60
 [database]
