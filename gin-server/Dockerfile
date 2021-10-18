@@ -29,7 +29,7 @@ WORKDIR /dist
 RUN cp /build/blog_gin_api .
 
 # 声明服务端口
-EXPOSE 6008
+#EXPOSE 6008
 
 # 启动容器时运行的命令
 CMD ["/dist/blog_gin_api"]
