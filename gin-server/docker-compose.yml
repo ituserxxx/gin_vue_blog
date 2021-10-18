@@ -24,7 +24,7 @@ services:
       container_name: blog_api_cn
       restart: on-failure
       ports:
-        - '0.0.0.0:6008:6008'
+        - '6008:6008'
       depends_on:
         - blog_mysql
 
