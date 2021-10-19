@@ -1,6 +1,10 @@
 package middleware
 
 import (
+<<<<<<< HEAD
+=======
+	"fmt"
+>>>>>>> 8490c1b7e2ce7e55eae25c36458bdc8e8d733035
 	"gin-server/constant"
 	"gin-server/library/response"
 	"gin-server/utils"
@@ -11,6 +15,10 @@ import (
 func Jwt() gin.HandlerFunc {
 	return func(c *gin.Context) {
 		token := c.Request.Header.Get("j_token")
+<<<<<<< HEAD
+=======
+		fmt.Print("----------------token-->", token)
+>>>>>>> 8490c1b7e2ce7e55eae25c36458bdc8e8d733035
 		if token == "" {
 			response.Err(c, constant.TokenFail, "请求未携带token，无权限访问")
 			c.Abort()

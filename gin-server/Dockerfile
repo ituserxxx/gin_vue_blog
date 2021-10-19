@@ -1,5 +1,10 @@
 FROM golang:alpine
 
+<<<<<<< HEAD
+=======
+
+
+>>>>>>> 8490c1b7e2ce7e55eae25c36458bdc8e8d733035
 # 为我们的镜像设置必要的环境变量
 ENV GO111MODULE=on \
     CGO_ENABLED=0 \

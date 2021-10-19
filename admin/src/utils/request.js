@@ -14,6 +14,10 @@ const service = axios.create({
 service.interceptors.request.use(
   config => {
     // do something before request is sent
+<<<<<<< HEAD
+=======
+  
+>>>>>>> 8490c1b7e2ce7e55eae25c36458bdc8e8d733035
     if (store.getters.token) {
       config.headers['j_token'] = getToken()
     }
