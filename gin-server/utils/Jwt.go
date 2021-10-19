@@ -58,7 +58,6 @@ func GenerateToken(ctx *gin.Context, Id string) string {
 		g.Log(err.Error())
 		return err.Error()
 	}
-	//log.Println("--->生成的token-->：" + token)
 	ctx.Header("j_token", token)
 	return token
 }

@@ -11,13 +11,12 @@ func LoadAdminRoutes(r *gin.Engine) {
 	prefix := g.Config().GetString("app.BlogAdminBaseUrl")
 	r.Use(middleware.CorsMiddleware(), middleware.Visitor())
 	r.POST(prefix+"/user/login", Admin.LoginApi.AdminLogin)
+	r.GET("/xx", Admin.XxxApi.Golist)
 	r.Use(middleware.Jwt())
 	api := r.Group(prefix)
 	{
-		api.POST("/xx", Admin.XxxApi.Golist)
 		api.POST("/user/info", Admin.UserApi.AdminUserInfo)
 		api.POST("/user/logout", Admin.UserApi.AdminUserLogout)
-
 		api.POST("/user/add", Admin.UserApi.AddAdmin)
 		api.POST("/user/del", Admin.UserApi.DelAdmin)
 		api.POST("/list", Admin.UserApi.AdminList)
