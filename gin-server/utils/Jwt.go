@@ -2,10 +2,11 @@ package utils
 
 import (
 	"errors"
+	"time"
+
 	"github.com/gin-gonic/gin"
 	"github.com/gogf/gf/frame/g"
 	"github.com/gogf/gf/util/gconv"
-	"time"
 
 	"github.com/dgrijalva/jwt-go"
 )
@@ -58,10 +59,6 @@ func GenerateToken(ctx *gin.Context, Id string) string {
 		g.Log(err.Error())
 		return err.Error()
 	}
-<<<<<<< HEAD
-	//log.Println("--->生成的token-->：" + token)
-=======
->>>>>>> 8490c1b7e2ce7e55eae25c36458bdc8e8d733035
 	ctx.Header("j_token", token)
 	return token
 }

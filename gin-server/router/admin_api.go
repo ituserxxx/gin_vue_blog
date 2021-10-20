@@ -3,6 +3,7 @@ package router
 import (
 	Admin "gin-server/application/admin/api"
 	"gin-server/middleware"
+
 	"github.com/gin-gonic/gin"
 	"github.com/gogf/gf/frame/g"
 )
@@ -11,22 +12,12 @@ func LoadAdminRoutes(r *gin.Engine) {
 	prefix := g.Config().GetString("app.BlogAdminBaseUrl")
 	r.Use(middleware.CorsMiddleware(), middleware.Visitor())
 	r.POST(prefix+"/user/login", Admin.LoginApi.AdminLogin)
-<<<<<<< HEAD
-	r.Use(middleware.Jwt())
-	api := r.Group(prefix)
-	{
-		api.POST("/xx", Admin.XxxApi.Golist)
-		api.POST("/user/info", Admin.UserApi.AdminUserInfo)
-		api.POST("/user/logout", Admin.UserApi.AdminUserLogout)
-
-=======
 	r.GET("/xx", Admin.XxxApi.Golist)
 	r.Use(middleware.Jwt())
 	api := r.Group(prefix)
 	{
 		api.POST("/user/info", Admin.UserApi.AdminUserInfo)
 		api.POST("/user/logout", Admin.UserApi.AdminUserLogout)
->>>>>>> 8490c1b7e2ce7e55eae25c36458bdc8e8d733035
 		api.POST("/user/add", Admin.UserApi.AddAdmin)
 		api.POST("/user/del", Admin.UserApi.DelAdmin)
 		api.POST("/list", Admin.UserApi.AdminList)

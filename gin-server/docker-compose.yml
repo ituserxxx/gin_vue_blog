@@ -6,7 +6,6 @@ services:
       container_name: blog_mysql_cn
       ports:
         - 33062:3306
-      restart: always
       volumes:
         - ./docker/mysql/data:/var/lib/mysql
         - ./docker/mysql/conf.d:/etc/mysql/conf.d
