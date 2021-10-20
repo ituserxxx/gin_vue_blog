@@ -23,4 +23,11 @@ docker run -it -d -p 3306:3306 --name=mysql  --restart=always -e MYSQL_ROOT_PASS
 ## 部署Go项目
 https://blog.csdn.net/qq_34675369/article/details/112086156
 
+### win 部署
+在main.go目录执行：go run main.go
+### linux 部署
+在win的main.go目录执行 set GOARCH=amd64 && set GOOS=linux && go build main.go ，将在此目录生成 main 二进制文件
+
+
+
 
