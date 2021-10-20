@@ -39,6 +39,7 @@ server{
 
 nginx 配置如下
 
+```
 server{
     listen 80;
     server_name admin.yoursite.com;
@@ -52,6 +53,7 @@ server{
         proxy_pass http://127.0.0.1:6008;	
     }
 }
+```
 
 #### blog api gin-server
 
