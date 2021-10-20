@@ -9,14 +9,14 @@ avatarRelPath="avatar"
 BlogBaseUrl="/blog/"
 BlogAdminBaseUrl="/admin/"
 [server]
-runMode="debug"
-#runMode="release"
+#runMode="debug"
+runMode="release"
 serverAddr="127.0.0.1:6008"
 readTimeout=60
 writeTimeout=60
 [database]
 mode="mysql"
-host="127.0.0.1"
+host="0.0.0.0"
 port="3306"
 user="root"
 password="root"
