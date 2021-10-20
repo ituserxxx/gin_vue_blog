@@ -7,11 +7,15 @@
 
 
 ## 部署方式
+
 #### blog 前台 vue-front
+
 - 进入 vue-front
 - 依次执行：npm i 、npm run build
 - 将 dist 目录下所有文件上传到服务器你的站点目录下，并配置域名 
+
 nginx 配置如下
+
 ```
 server{
     listen 80;
@@ -26,11 +30,15 @@ server{
     }
 }
 ```
+
 #### blog 后台  admin
+
 - 进入 admin 目录 
 - 依次执行：npm i 、npm run build
 - 将 dist 目录下所有文件上传到服务器你的站点目录下，并配置域名 
+
 nginx 配置如下
+
 server{
     listen 80;
     server_name admin.yoursite.com;
@@ -46,6 +54,7 @@ server{
 }
 
 #### blog api gin-server
+
 - 进入 gin-server目录
 - 执行 go mod download
 - 打包成linux 可执行文件：set GOARCH=amd64 && set GOOS=linux && go build main.go 
