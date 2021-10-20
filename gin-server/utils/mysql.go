@@ -22,8 +22,6 @@ func ConnectDB() {
 		c.GetString("database.port"),
 		c.GetString("database.dbName"),
 	)
-	fmt.Printf("%#v", databaseURL)
-
 	var err error
 	mysqlConfig := gorm.Config{
 		NamingStrategy: schema.NamingStrategy{

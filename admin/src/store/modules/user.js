@@ -47,11 +47,7 @@ const actions = {
   // get user info
   getInfo({ commit, state }) {
     return new Promise((resolve, reject) => {
-<<<<<<< HEAD
-      getInfo({ token: Number(state.token) }).then(response => {
-=======
       getInfo({ token: state.token }).then(response => {
->>>>>>> 8490c1b7e2ce7e55eae25c36458bdc8e8d733035
         const { data } = response
         if (!data) {
           return reject('Verification failed, please Login again.')
