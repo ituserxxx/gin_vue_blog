@@ -5,10 +5,3 @@
 ./admin/node_modules
 ./admin/.idea
 
-
-./gin-server/.idea
-<<<<<<< HEAD
-./gin-server/docker/data
-=======
-./gin-server/docker/data
->>>>>>> 8490c1b7e2ce7e55eae25c36458bdc8e8d733035
