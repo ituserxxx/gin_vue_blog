@@ -19,7 +19,7 @@ mode="mysql"
 host="127.0.0.1"
 port="3306"
 user="root"
-password="Jiao+baba-741$"
+password="root"
 dbName="gin_vue_blog"
 prefix="blog_"
 # 设置连接池中的最大闲置连接数

@@ -18,9 +18,15 @@ https://www.cnblogs.com/jiujuan/p/13823864.html
 ## redis容器
 docker run -it -d -p 6379:6379  --name=redis --restart=always -v /data/docker-continaer/redis/conf/redis.conf:/etc/redis/redis.conf -v /data/docker-continaer/redis/data:/data  redis redis-server /etc/redis/redis.conf --appendonly yes
 ## mysql 容器
-docker run -p 3306:3306 --name mysql8  --restart=always  -e MYSQL_ROOT_PASSWORD="Jiao+baba-741$"  -v /data/mysql/conf.d:/etc/mysql/conf.d -v  /data/mysql/logs:/logs -v  /data/mysql/data:/var/lib/mysql -d mysql:8
+docker run -p 3306:3306 --name=mysql8 -e MYSQL_ALLOW_EMPTY_PASSWORD=true  -v /data/mysql/conf.d:/etc/mysql/conf.d -v  /data/mysql/logs:/logs -v  /data/mysql/data:/var/lib/mysql -d mysql:8
+修改密码
+ALTER USER 'root'@'localhost' IDENTIFIED WITH MYSQL_NATIVE_PASSWORD BY 'JiaoBaBa741';
+
 ## 部署Go项目
 https://blog.csdn.net/qq_34675369/article/details/112086156
+
+docker run -p 3306:3306 --name mysql57  --restart=always  -e MYSQL_ROOT_PASSWORD="JiaoBaBa741"  -d mysql:5.7
+
 
 ### win 部署
 在main.go目录执行：go run main.go
@@ -30,3 +36,4 @@ https://blog.csdn.net/qq_34675369/article/details/112086156
 
 
 
+tar -xvf /data/mysql/mysql-8.0.16-2.el7.x86_64.rpm-bundle.tar -C /data/mysql
