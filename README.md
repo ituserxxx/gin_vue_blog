@@ -1,9 +1,13 @@
 # gin_vue_blog
+
+体验地址：http://vtian.top/
+
 ## 使用 Gin  vue  element 单纯的一个博客
 ## 前后端分离部署 
-- 博客前台
-- 博客后台管理
+- 博客前台  
+- 博客后台管理 
 - api端
+
 
 
 ## 部署方式
@@ -59,6 +63,20 @@ server{
 
 - 进入 gin-server目录
 - 执行 go mod download
-- 打包成linux 可执行文件：set GOARCH=amd64 && set GOOS=linux && go build main.go 
-- 将 生成的 main 二进制文件放到服务器上面，赋予权限：chmod 777 main ,启动后台执行 nohup ./main &
+- 打包成linux 可执行文件：
+
+```
+     set GOARCH=amd64
+     set GOOS=linux
+     go build main.go 
+```
+
+- 将 生成的 main 二进制文件放到服务器上面，赋予权限：
+```
+chmod 777 main 
+```
+- 启动后台执行 
+```
+nohup ./main &
+```
 
