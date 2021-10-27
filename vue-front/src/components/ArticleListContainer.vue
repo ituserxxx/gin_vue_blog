@@ -10,13 +10,16 @@
         @click="gotoDetail(val.id)"
       >
         <el-card>
-          <h1>{{ val.title }}</h1>
+          <h1 style="font-size: 1em;">{{ val.title }}</h1>
         </el-card>
       </el-timeline-item>
     </div>
     <div v-if="total > 0" class="Page-tool">
       <el-pagination
         background
+        @prev-click="handleCurrentChange"
+        @next-click="handleCurrentChange"
+         @current-change="handleCurrentChange"
         :pager-count="5"
         layout="prev, pager, next"
         :total="total"
@@ -47,6 +50,7 @@ export default {
     },
     handleCurrentChange(val) {
       this.current_page = val;
+       this.randArticleList()
     },
     gotoDetail(id) {
       this.$router.push({

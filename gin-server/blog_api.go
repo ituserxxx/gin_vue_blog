@@ -1,6 +1,7 @@
 package main
 
 import (
+	"fmt"
 	"gin-server/router"
 	"gin-server/utils"
 	"github.com/gin-gonic/gin"
@@ -22,8 +23,10 @@ func main() {
 		Addr:    c.GetString("server.serverAddr"),
 		Handler: r,
 	}
+	fmt.Print("服务已启动~")
 	// 服务连接
 	if err := srv.ListenAndServe(); err != nil && err != http.ErrServerClosed {
 		log.Fatalf("listen: %s\n", err)
 	}
+
 }

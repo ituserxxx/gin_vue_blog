@@ -1,6 +1,6 @@
 <template>
   <el-main class="Home">
-    <ArticleListContainer></ArticleListContainer>
+    <ArticleListContainer/>
   </el-main>
 </template>
 <script>
