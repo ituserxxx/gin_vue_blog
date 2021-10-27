@@ -3,6 +3,7 @@
 体验地址：http://vtian.top/
 
 ## 使用 Gin  vue  element 单纯的一个博客
+持续更新中
 ## 前后端分离部署 
 - 博客前台  
 - 博客后台管理 
@@ -11,6 +12,9 @@
 
 
 ## 部署方式
+#### 数据库
+- 导入 gin-server 目录下的sql文件入库
+- 配置 gin-server/config 中账号密码
 
 #### blog 前台 vue-front
 
