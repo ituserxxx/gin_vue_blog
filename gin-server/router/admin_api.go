@@ -34,6 +34,6 @@ func LoadAdminRoutes(r *gin.Engine) {
 		api.POST("/tag/update", Admin.TagApi.TagUpdate)
 		api.POST("/tag/del", Admin.TagApi.TagDel)
 		api.POST("/visitor/list", Admin.VisitorApi.VisitorList)
-
+		api.POST("/upload/token", Admin.QiniuApi.GetToken)
 	}
 }

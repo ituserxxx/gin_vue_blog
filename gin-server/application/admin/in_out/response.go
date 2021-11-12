@@ -45,3 +45,9 @@ type TagInfoResp struct {
 type IDResp struct {
 	ID int `json:"id"`
 }
+
+// TokenResponse .
+type QiniuResponse struct {
+	Token  string `json:"token"`
+	Domain string `json:"domain"`
+}

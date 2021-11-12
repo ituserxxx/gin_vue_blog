@@ -56,3 +56,8 @@ receiver="XXXXX@163.com"
 [jwt]
 SignKey="ginvueblogjwt"
 
+[qiniu]
+domain="https://qiniu.storage.heifengni.com"
+AccessKey="_a84dBRWph1OoEYiGnFO7ZTJaFeHrf5ssjrCB4dT"
+SecretKey="LJ-oWZiEWFoixk09cQJUWu2CGRv-rtOwfkkYsUHk"
+Bucket="qiniu_storage"
