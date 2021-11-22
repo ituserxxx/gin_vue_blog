@@ -50,4 +50,5 @@ type IDResp struct {
 type QiniuResponse struct {
 	Token  string `json:"token"`
 	Domain string `json:"domain"`
+	Region string `json:"region"`
 }

@@ -17,5 +17,7 @@ func (qa *qiniuApi) GetToken(ctx *gin.Context) {
 	var resp = &in_out.QiniuResponse{}
 	resp.Token = utils.GetUploadToken()
 	resp.Domain = g.Config().GetString("qiniu.domain")
+	//resp.Region = g.Config().GetString("qiniu.region")
+	resp.Region = "https://up-z0.qiniup.com"
 	response.Succ(ctx, resp)
 }

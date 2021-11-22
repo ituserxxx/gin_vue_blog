@@ -9,8 +9,8 @@ avatarRelPath="avatar"
 BlogBaseUrl="/blog/"
 BlogAdminBaseUrl="/admin/"
 [server]
-#runMode="debug"
-runMode="release"
+runMode="debug"
+#runMode="release"
 serverAddr="127.0.0.1:6008"
 readTimeout=60
 writeTimeout=60
@@ -61,3 +61,4 @@ domain="https://qiniu.storage.heifengni.com"
 AccessKey="_a84dBRWph1OoEYiGnFO7ZTJaFeHrf5ssjrCB4dT"
 SecretKey="LJ-oWZiEWFoixk09cQJUWu2CGRv-rtOwfkkYsUHk"
 Bucket="qiniu_storage"
+Region="https://up-z0.qiniup.com"

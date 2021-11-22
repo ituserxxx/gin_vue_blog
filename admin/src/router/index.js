@@ -103,7 +103,7 @@ export const constantRoutes = [
     path: '/img',
     component: Layout,
     redirect: '/img',
-    name: 'tag',
+    name: 'img',
     meta: { title: '图片管理', icon: 'el-icon-s-help' },
     children: [
       {

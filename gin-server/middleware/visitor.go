@@ -16,7 +16,7 @@ func Visitor() gin.HandlerFunc {
 			if err != nil {
 				fmt.Printf("%#v", err.Error())
 			}
-			fmt.Print("-------------", ip, Address)
+			//fmt.Print("-------------", ip, Address)
 			visitor := &entity.Visitor{
 				Ua:        context.Request.UserAgent(),
 				IP:        ip,
