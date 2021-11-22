@@ -59,7 +59,6 @@ export default {
       this.qiniuData.key = `upload_pic_${file.name}`
       return isJPG && isLt2M;   
     } ,
-
   }
 }
 </script>
