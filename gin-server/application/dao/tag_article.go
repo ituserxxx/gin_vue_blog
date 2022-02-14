@@ -67,8 +67,8 @@ func (a *tagArticleDao) GetBlogTagArticleList(tx *gorm.DB, ctx *gin.Context, tag
 		Joins("join blog_tag_article as ta on ta.article_id = blog_article.id").
 		Where("blog_article.status =?", TableFieldStatus["publish"]).
 		Where("ta.tag_id =?", tagID).
-		Offset((page - 1) * constant.PageMinList).
-		Limit(constant.PageMinList).
+		//Offset((page - 1) * constant.PageMinList).
+		//Limit(constant.PageMinList).
 		Order("id desc").
 		Find(&ent).
 		Error
