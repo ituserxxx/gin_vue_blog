@@ -22,7 +22,7 @@ func ConnectDB() {
 		c.GetString("database.port"),
 		c.GetString("database.dbName"),
 	)
-	fmt.Printf("%#v", databaseURL)
+	fmt.Printf("111111111111111111111111111111%#v", databaseURL)
 
 	var err error
 	mysqlConfig := gorm.Config{

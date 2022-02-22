@@ -15,12 +15,25 @@ https://learnku.com/docs/gorm/v2/query/9733#a231f4
 https://www.cnblogs.com/jiujuan/p/13823864.html
 
 
-## redis容器
-docker run -it -d -p 6379:6379  --name=redis --restart=always -v /data/docker-continaer/redis/conf/redis.conf:/etc/redis/redis.conf -v /data/docker-continaer/redis/data:/data  redis redis-server /etc/redis/redis.conf --appendonly yes
-## mysql 容器
-docker run -it -d -p 3306:3306 --name=mysql  --restart=always -e MYSQL_ROOT_PASSWORD=root -v /data/docker-continaer/mysql/conf:/etc/mysql/conf.d -v  /data/docker-continaer/mysql/logs:/logs -v  /data/docker-continaer/mysql/data:/var/lib/mysql mysql:8 
-
 ## 部署Go项目
 https://blog.csdn.net/qq_34675369/article/details/112086156
 
+
+
+
+docker run --name nginx-test -p 8080:80 -d nginx
+docker cp nginx-test:/etc/nginx/conf.d ./nginx/config/
+docker cp nginx-test:/etc/nginx/nginx.conf ./nginx/config/
+
+docker run  --name mysql-test  -p 3309:3306 -d -e MYSQL_ROOT_PASSWORD=123456 -d mysql:8
+docker cp mysql-test:/etc/mysql/conf.d ./docker/mysql/conf.d
+docker cp mysql-test:docker/mysql/data:/var/lib/mysql
+
+
+cd 项目dockerfile目录
+docker build -t gin_api:v1 .
+
+
+重启：
+docker build -t gin_api:v1 .  && docker-compose up
 

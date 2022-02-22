@@ -1,10 +1,11 @@
 
 ./vue-front/node_modules
 ./vue-front/.idea
+./vue-front/dist
 
 ./admin/node_modules
 ./admin/.idea
-
+./admin/dist
 
 ./gin-server/.idea
 ./gin-server/docker/data
