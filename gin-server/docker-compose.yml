@@ -6,7 +6,6 @@ services:
       container_name: blog_mysql_cn
       ports:
         - 33062:3306
-      restart: always
       volumes:
         - ./docker/mysql/data:/var/lib/mysql
         - ./docker/mysql/conf:/etc/mysql/conf.d
@@ -17,10 +16,10 @@ services:
         --collation-server=utf8mb4_general_ci
         --explicit_defaults_for_timestamp=true
         --lower_case_table_names=0
+        --host_cache_size=0
     blog_nginx:
       image: nginx
       container_name: blog_gin_nginx
-      restart: always
       ports:
         - '8011:80'
         - '443:443'
@@ -30,7 +29,6 @@ services:
     blog_api:
       image: gin_api:v1
       container_name: blog_api_cn
-      restart: on-failure
       ports:
         - '6008:6008'
       depends_on:
