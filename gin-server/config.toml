@@ -10,13 +10,13 @@ BlogBaseUrl="/blog/"
 BlogAdminBaseUrl="/admin/"
 [server]
 runMode="debug"
-serverAddr="0.0.0.0:1002"
+serverAddr="127.0.0.1:6008"
 readTimeout=60
 writeTimeout=60
 [database]
 mode="mysql"
-host="127.0.0.1"
-port="33062"
+host="blog_mysql_cn"
+port="6001"
 user="root"
 password="root"
 dbName="gin_vue_blog"

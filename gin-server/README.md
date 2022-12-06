@@ -21,13 +21,13 @@ https://blog.csdn.net/qq_34675369/article/details/112086156
 
 
 
-docker run --name nginx-test -p 8080:80 -d nginx
-docker cp nginx-test:/etc/nginx/conf.d ./nginx/config/
-docker cp nginx-test:/etc/nginx/nginx.conf ./nginx/config/
+docker run --name nginx-tes1t -p 80:80 -d nginx
+docker cp nginx-test:/etc/nginx/conf.d ./docker/nginx/
+docker cp nginx-test:/etc/nginx/nginx.conf ./docker/nginx/
 
-docker run  --name mysql-test  -p 3309:3306 -d -e MYSQL_ROOT_PASSWORD=123456 -d mysql:8
-docker cp mysql-test:/etc/mysql/conf.d ./docker/mysql/conf.d
-docker cp mysql-test:docker/mysql/data:/var/lib/mysql
+docker run -it --name mysql-test -d -p 3309:3306 -e MYSQL_ROOT_PASSWORD=123456 mysql:8
+docker cp mysql-test:/etc/mysql/conf.d ./docker/mysql/conf
+docker cp mysql-test:/var/lib/mysql ./docker/mysql/data
 
 
 cd 项目dockerfile目录

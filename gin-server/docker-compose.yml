@@ -1,39 +1,68 @@
 version: '3'
-
 services:
-    blog_mysql:
-      image: mysql:8
-      container_name: blog_mysql_cn
-      ports:
-        - 33062:3306
-      volumes:
-        - ./docker/mysql/data:/var/lib/mysql
-        - ./docker/mysql/conf:/etc/mysql/conf.d
-      environment:
-        - MYSQL_ROOT_PASSWORD=root
-      command:
-        --character-set-server=utf8mb4
-        --collation-server=utf8mb4_general_ci
-        --explicit_defaults_for_timestamp=true
-        --lower_case_table_names=0
-        --host_cache_size=0
-    blog_nginx:
-      image: nginx
-      container_name: blog_gin_nginx
-      ports:
-        - '8011:80'
-        - '443:443'
-      volumes:
-        - ./docker/nginx/config/nginx.conf:/etc/nginx/nginx.conf
-        - ./docker/nginx/config/conf.d:/etc/nginx/conf.d
-    blog_api:
-      image: gin_api:v1
-      container_name: blog_api_cn
-      ports:
-        - '6008:6008'
-      depends_on:
-        - blog_mysql
-        - blog_nginx
+  blog_mysql:
+    image: mysql:8.0
+    container_name: blog_mysql_cn
+    ports:
+      - "6001:3306"
+    volumes:
+      - ./docker/mysql/data:/var/lib/mysql:rw
+      - ./docker/mysql/my.cnf:/etc/mysql/my.cnf:rw
+      - ./docker/mysql/db/:/docker-entrypoint-initdb.d:rw
+      - ./docker/mysql/log:/var/log/mysql:rw
+    environment:
+      - TZ=Asia/Shanghai
+      - LANG=C.UTF-8
+      - MYSQL_USER=root
+      - MYSQL_PASSWORD=root
+      - MYSQL_ROOT_PASSWORD=root
+    command:
+      --default-authentication-plugin=mysql_native_password
+      --character-set-server=utf8mb4
+      --collation-server=utf8mb4_general_ci
+    networks:
+      - blog_gin_net
+  blog_mysql_admin:
+    image: phpmyadmin/phpmyadmin
+    container_name: blog_mysql_admin_cn
+    restart: always
+    ports:
+      - "6002:80"
+    environment:
+      - PMA_ARBITRARY=0
+      - MYSQL_USER=root
+      - MYSQL_PASSWORD=root
+      - MYSQL_ROOT_PASSWORD=root
+      - PMA_HOST=blog_mysql
+    depends_on:
+      - blog_mysql
+    networks:
+      - default
 
+  blog_nginx:
+    image: nginx
+    container_name: blog_nginx_cn
+    ports:
+      - "6003:80"
+    volumes:
+      - ./docker/nginx/nginx.conf:/etc/nginx/nginx.conf
+      - ./docker/nginx/conf.d:/etc/nginx/conf.d
+    networks:
+      - blog_gin_net
 
+  blog_api:
+    image: gin_api:v1
+    container_name: blog_api_cn
+    restart: on-failure
+    ports:
+      - "6008:6008"
+    depends_on:
+      - blog_mysql
+      - blog_nginx
+    networks:
+      - blog_gin_net
+
+networks:
+  blog_gin_net:
+    driver: bridge
 
