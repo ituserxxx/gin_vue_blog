@@ -43,6 +43,7 @@ services:
   blog_nginx:
     image: nginx
     container_name: blog_nginx_cn
+    restart: always
     ports:
       - "6003:80"
     volumes:
@@ -54,7 +55,7 @@ services:
   blog_api:
     image: gin_api:v1
     container_name: blog_api_cn
-    restart: on-failure
+    restart: always
     ports:
       - "6008:6008"
     depends_on:
