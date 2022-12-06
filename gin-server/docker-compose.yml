@@ -3,6 +3,7 @@ services:
   blog_mysql:
     image: mysql:8.0
     container_name: blog_mysql_cn
+    restart: always
     ports:
       - "6001:3306"
     volumes:
@@ -37,7 +38,7 @@ services:
     depends_on:
       - blog_mysql
     networks:
-      - default
+      - blog_gin_net
 
   blog_nginx:
     image: nginx
@@ -59,6 +60,7 @@ services:
     depends_on:
       - blog_mysql
       - blog_nginx
+      - blog_mysql_admin
     networks:
       - blog_gin_net
 
