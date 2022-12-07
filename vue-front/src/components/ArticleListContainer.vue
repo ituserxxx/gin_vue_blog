@@ -21,6 +21,7 @@
         layout="prev, pager, next"
         :total="total"
         :hide-on-single-page="true"
+         @current-change="handleCurrentChange"
       >
       </el-pagination>
     </div>
@@ -47,6 +48,7 @@ export default {
     },
     handleCurrentChange(val) {
       this.current_page = val;
+      this.randArticleList()
     },
     gotoDetail(id) {
       this.$router.push({

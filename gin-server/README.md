@@ -37,3 +37,10 @@ docker build -t gin_api:v1 .
 重启：
 docker build -t gin_api:v1 .  && docker-compose up
 
+
+
+debug step
+
+
+docker-compose up 
+go run main.go

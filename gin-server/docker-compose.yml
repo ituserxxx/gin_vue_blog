@@ -3,7 +3,6 @@ services:
   blog_mysql:
     image: mysql:8.0
     container_name: blog_mysql_cn
-    restart: always
     ports:
       - "6001:3306"
     volumes:
@@ -26,7 +25,6 @@ services:
   blog_mysql_admin:
     image: phpmyadmin/phpmyadmin
     container_name: blog_mysql_admin_cn
-    restart: always
     ports:
       - "6002:80"
     environment:
@@ -43,25 +41,28 @@ services:
   blog_nginx:
     image: nginx
     container_name: blog_nginx_cn
-    restart: always
+    restart: on-failure
     ports:
-      - "6003:80"
+      - "6003:6003"
+      - "6004:6004"
     volumes:
       - ./docker/nginx/nginx.conf:/etc/nginx/nginx.conf
       - ./docker/nginx/conf.d:/etc/nginx/conf.d
+      - ../admin/dist:/app/admin
+      - ../vue-front/dist:/app/front
+    links:
+      - blog_api
     networks:
       - blog_gin_net
 
   blog_api:
     image: gin_api:v1
     container_name: blog_api_cn
-    restart: always
+    restart: on-failure
     ports:
       - "6008:6008"
     depends_on:
       - blog_mysql
-      - blog_nginx
-      - blog_mysql_admin
     networks:
       - blog_gin_net
 

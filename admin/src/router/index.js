@@ -99,21 +99,21 @@ export const constantRoutes = [
       }
     ]
   },
-  {
-    path: '/img',
-    component: Layout,
-    redirect: '/img/img',
-    name: 'tag',
-    meta: { title: '图片管理', icon: 'el-icon-s-help' },
-    children: [
-      {
-        path: 'img',
-        name: 'Img',
-        component: () => import('@/views/img/add'),
-        meta: { title: '添加图片', icon: 'table' }
-      }
-    ]
-  },
+  // {
+  //   path: '/img',
+  //   component: Layout,
+  //   redirect: '/img/img',
+  //   name: 'tag',
+  //   meta: { title: '图片管理', icon: 'el-icon-s-help' },
+  //   children: [
+  //     {
+  //       path: 'img',
+  //       name: 'Img',
+  //       component: () => import('@/views/img/add'),
+  //       meta: { title: '添加图片', icon: 'table' }
+  //     }
+  //   ]
+  // },
   {
     path: '/user',
     component: Layout,

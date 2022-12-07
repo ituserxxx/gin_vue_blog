@@ -8,7 +8,7 @@ import (
 )
 
 func LoadBlogRoutes(r *gin.Engine) {
-	r.Use(middleware.CorsMiddleware(), middleware.Visitor())
+	r.Use(middleware.CorsMiddleware(),middleware.Visitor())
 	api := r.Group(g.Config().GetString("app.BlogBaseUrl"))
 	{
 		api.POST("/article/list", blogApi.ArticleApi.HomeArticleList)

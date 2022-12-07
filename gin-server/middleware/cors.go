@@ -1,6 +1,7 @@
 package middleware
 
 import (
+	"fmt"
 	"github.com/gin-gonic/gin"
 	"net/http"
 	"regexp"
@@ -10,10 +11,11 @@ func CorsMiddleware() gin.HandlerFunc {
 	return func(c *gin.Context) {
 		method := c.Request.Method
 		origin := c.Request.Header.Get("Origin")
-		var filterHost = [...]string{"http://localhost.*"}
+		fmt.Println("cors -->origin="+origin)
+		var filterHost = [...]string{"http://127.0.0.1:6003"}
 		// filterHost 做过滤器，防止不合法的域名访问
 		var isAccess = false
-		for _, v := range (filterHost) {
+		for _, v := range filterHost {
 			match, _ := regexp.MatchString(v, origin)
 			if match {
 				isAccess = true

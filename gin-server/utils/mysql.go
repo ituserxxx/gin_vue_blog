@@ -15,7 +15,8 @@ var db *gorm.DB
 // ConnectDB connect to database
 func ConnectDB() {
 	c := g.Config()
-	databaseURL := fmt.Sprintf("%s:%s@tcp(%s:%s)/%s?charset=utf8&parseTime=True&loc=Local",
+	//databaseURL := fmt.Sprintf("%s:%s@tcp(%s:%s)/%s?charset=utf8&parseTime=True&loc=Local",
+	databaseURL := fmt.Sprintf("%s:%s@tcp(%s:%s)/%s?loc=Local",
 		c.GetString("database.user"),
 		c.GetString("database.password"),
 		c.GetString("database.host"),

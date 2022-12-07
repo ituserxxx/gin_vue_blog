@@ -10,12 +10,12 @@ BlogBaseUrl="/blog/"
 BlogAdminBaseUrl="/admin/"
 [server]
 runMode="debug"
-serverAddr="127.0.0.1:6008"
+serverAddr="0.0.0.0:6008"
 readTimeout=60
 writeTimeout=60
 [database]
 mode="mysql"
-host="blog_mysql_cn"
+host="blog_mysql"
 port="3306"
 user="root"
 password="root"

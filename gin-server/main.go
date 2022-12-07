@@ -24,7 +24,7 @@ func main() {
 		Addr:    c.GetString("server.serverAddr"),
 		Handler: r,
 	}
-	fmt.Print("服务已启动~")
+	fmt.Print("服务已启动~"+srv.Addr)
 	// 服务连接
 	if err := srv.ListenAndServe(); err != nil && err != http.ErrServerClosed {
 		log.Fatalf("listen: %s\n", err)
