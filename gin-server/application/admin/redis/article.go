@@ -1,11 +1,8 @@
 package redis
 
 import (
-	"encoding/json"
 	"gin-server/application/entity"
-	"gin-server/utils"
 	"github.com/gin-gonic/gin"
-	"time"
 )
 
 var ArticelCache *articleCache
@@ -14,7 +11,7 @@ type articleCache struct {
 }
 
 func (ac *articleCache) ArticleList(ctx *gin.Context, page int) ([]entity.Article, error) {
-	//return nil, nil
+	return nil, nil
 	//redis := utils.Redis()
 	//str, _ := json.Marshal(entList)
 	//err = redis.Set(ctx, "user_info", str, 1*time.Hour).Err()

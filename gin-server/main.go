@@ -12,7 +12,6 @@ import (
 
 func main() {
 	c := g.Config()
-
 	gin.SetMode(c.GetString("server.runMode"))
 	r := gin.New()
 	r = gin.Default()
