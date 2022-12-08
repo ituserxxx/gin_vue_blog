@@ -75,5 +75,6 @@ server{
 
 ```
 cd  gin-server
+docker build -t gin_api:v1 .
 docker-compose up 
 ```
