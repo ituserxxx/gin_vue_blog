@@ -15,7 +15,7 @@ readTimeout=60
 writeTimeout=60
 [database]
 mode="mysql"
-host="blog_mysql"
+host="blog_mysql_cn"
 port="3306"
 user="db_blog_user"
 password="db_blog_pass"
