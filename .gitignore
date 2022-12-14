@@ -1,2 +1,4 @@
 .idea
 ./gin-server/docker/mysql/
+vue-front/node_modules
+admin/node_modules
