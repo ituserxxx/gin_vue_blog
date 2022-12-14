@@ -17,6 +17,17 @@ git clone xxx.git
 - nginx
 - node 
 
+docker run \
+-u root \
+-itd \
+--rm \
+--name jenkins \
+-p 6005:8080 \
+-v jenkins-data:/var/jenkins_home \
+-v /var/run/docker.sock:/var/run/docker.sock \
+jenkinsci/blueocean
+
+
  打包
 ```
 # 前台代码
