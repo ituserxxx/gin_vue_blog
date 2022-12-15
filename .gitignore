@@ -4,3 +4,5 @@ admin/dist
 admin/node_modules
 vue-front/dist
 vue-front/node_modules
+./gin-server/docker/mysql/
+
