@@ -48,8 +48,8 @@ services:
     volumes:
       - ./docker/nginx/nginx.conf:/etc/nginx/nginx.conf
       - ./docker/nginx/conf.d:/etc/nginx/conf.d
-      - ../docker/web_admin:/app/admin
-      - ../docker/web_front:/app/front
+      - ./docker/web_admin:/app/admin
+      - ./docker/web_front:/app/front
     links:
       - blog_api
     networks:
@@ -58,7 +58,7 @@ services:
   blog_api:
     image: gin_api:v1
     container_name: blog_api_cn
-    restart: on-failure
+    restart: always
     ports:
       - "6008:6008"
     depends_on:

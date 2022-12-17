@@ -32,10 +32,6 @@ export GOOS=linux
 go build -o blog_gin_api -ldflags="-w -s" main.go
 FROM  golang:latest  as buil
 
-scp ./blog_gin_api root@106.55.253.243:/webapp/vtian/www.vtian.top/devlop_blog/
-
-scp ./dev.tar.gz root@106.55.253.243:/webapp/vtian/www.vtian.top/
-
 
 
 
@@ -46,6 +42,8 @@ docker build -t gin_api:v1 .
 重启：
 docker build -t gin_api:v1 .  && docker-compose up
 
+
+docker rm blog_api_cn blog_nginx blog_mysql blog_mysql_admin mysql_admin_test
 
 
 debug step
