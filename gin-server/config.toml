@@ -16,7 +16,7 @@ writeTimeout=60
 [database]
 mode="mysql"
 host="blog_mysql_cn"
-port="6001"
+port="3306"
 user="db_blog_user"
 password="db_blog_pass"
 dbName="gin_vue_blog"
