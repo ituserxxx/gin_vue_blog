@@ -27,6 +27,18 @@ docker cp mysql-test:/etc/mysql/conf.d ./docker/mysql/conf
 docker cp mysql-test:/var/lib/mysql ./docker/mysql/data
 
 
+export GOARCH=amd64
+export GOOS=linux
+go build -o blog_gin_api -ldflags="-w -s" main.go
+FROM  golang:latest  as buil
+
+scp ./blog_gin_api root@106.55.253.243:/webapp/vtian/www.vtian.top/devlop_blog/
+
+scp ./dev.tar.gz root@106.55.253.243:/webapp/vtian/www.vtian.top/
+
+
+
+
 cd 项目dockerfile目录
 docker build -t gin_api:v1 .
 
