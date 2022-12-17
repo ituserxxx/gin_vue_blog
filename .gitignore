@@ -1,5 +1,5 @@
 .idea
-./gin-server/docker/mysql
+./gin-server/docker/mysql/data/
 admin/dist
 admin/node_modules
 vue-front/dist
