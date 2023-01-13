@@ -12,7 +12,7 @@ func CorsMiddleware() gin.HandlerFunc {
 		origin := c.Request.Header.Get("Origin")
 		var filterHost = [...]string{"http://127.0.0.1:6003","http://127.0.0.1:6004"}
 		// filterHost 做过滤器，防止不合法的域名访问
-		var isAccess = false
+		var isAccess = true
 		for _, v := range filterHost {
 			match, _ := regexp.MatchString(v, origin)
 			if match {
