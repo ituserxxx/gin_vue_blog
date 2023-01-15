@@ -9,6 +9,17 @@
 首先拉代码
 ```
 git clone xxx.git
+
+
+###  docker部署
+
+```
+cd  gin-server
+docker build -t gin_api:v1 .
+docker-compose up
+``
+
+
 ```
 ###  方式 一：前后端独立部署
  所需环境
@@ -82,10 +93,3 @@ server{
 }
 ```
 
-###  方式 二：docker部署
-
-```
-cd  gin-server
-docker build -t gin_api:v1 .
-docker-compose up 
-```

@@ -61,6 +61,10 @@ services:
     restart: always
     ports:
       - "6008:6008"
+    volumes:
+      - /etc/timezone:/etc/timezone
+      - /etc/localtime:/etc/localtime
+      - /usr/share/zoneinfo/Asia/:/usr/share/zoneinfo/Asia/
     links:
       - blog_mysql
     depends_on:
