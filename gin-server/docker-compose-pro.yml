@@ -8,6 +8,7 @@ services:
       - "6001:3306"
     volumes:
       - ./docker/mysql_pro/data:/var/lib/mysql
+      - ./docker/mysql_dev/my.cnf:/etc/my.cnf
       - ./docker/mysql_pro/init:/docker-entrypoint-initdb.d
     environment:
       - TZ=Asia/Shanghai
