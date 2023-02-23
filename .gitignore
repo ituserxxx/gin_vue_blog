@@ -1,7 +1,7 @@
 .idea
 ./gin-server/.idea
 ./gin-server/docker/mysql/data/
-./gin-server/docker/mysql/
+./gin-server/docker/mysql/log/
 ./admin/node_modules/
 ./vue-front/node_modules/
 
