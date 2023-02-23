@@ -8,11 +8,11 @@ ENV GO111MODULE=on \
 
 WORKDIR /app
 COPY . .
-RUN  go mod tidy && go build -o blog_gin_api -ldflags="-w -s" blog_api.go
+RUN  go mod tidy && go build -o blog_gin_api -ldflags="-w -s" main.go
 
 FROM  alpine:latest
 WORKDIR  /root
-COPY  --from=builder /app/config/config.toml  .
+COPY  --from=builder /app/config.toml  .
 COPY  --from=builder /app/blog_gin_api  .
 EXPOSE 6008
 CMD ["sh", "-c", "/root/blog_gin_api"]

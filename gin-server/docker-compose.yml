@@ -56,7 +56,7 @@ services:
       - blog_gin_net
 
   blog_api:
-    image: gin_api:v1
+    image: blog_gin_api:v1
     container_name: blog_api_cn
     restart: always
     ports:
