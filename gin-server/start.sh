@@ -7,10 +7,7 @@ ApiCnIsExists=$(docker ps -aqf "name=${ApiCn}")
 Img=$(docker images -q --filter reference=${ImgName})
 MysqlCn=$(docker ps -qf "name=blog_mysql_cn")
 
-if [ -n "$MysqlCn" ];then
-  docker-compose  stop
-  echo "docker-compose  stop"
-fi
+docker-compose  stop
 
 if [ -n "$ApiCnIsExists" ];then
     docker rm -f ${ApiCn}
