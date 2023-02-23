@@ -3,6 +3,7 @@ services:
   blog_mysql:
     image: mysql:8.0
     container_name: blog_mysql_cn
+    restart: on-failure
     ports:
       - "6001:3306"
     volumes:
