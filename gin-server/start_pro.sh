@@ -19,4 +19,4 @@ if [ -n "$Img" ];then
   echo "$ImgName -images remove"
 fi
 docker build -t ${ImgName} .
-docker-compose  up -d
+docker-compose -f docker-compose-pro.yml up -d

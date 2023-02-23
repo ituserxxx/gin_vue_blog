@@ -7,9 +7,8 @@ services:
     ports:
       - "6001:3306"
     volumes:
-      - ./docker/mysql/data:/var/lib/mysql
-      - ./docker/mysql/log:/var/log/mysql
-      - ./docker/mysql/init:/docker-entrypoint-initdb.d
+      - ./docker/mysql_dev/data:/var/lib/mysql
+      - ./docker/mysql_dev/init:/docker-entrypoint-initdb.d
     environment:
       - TZ=Asia/Shanghai
       - LANG=C.UTF-8
