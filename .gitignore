@@ -1,4 +1,5 @@
 .idea
+./gin-server/.idea
 ./gin-server/docker/mysql/data/
 ./gin-server/docker/mysql/
 ./admin/node_modules

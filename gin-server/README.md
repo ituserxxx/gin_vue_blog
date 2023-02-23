@@ -46,7 +46,7 @@ docker build -t gin_api:v1 .  && docker-compose up
 docker rm blog_api_cn blog_nginx blog_mysql blog_mysql_admin mysql_admin_test
 
 
-debug step
+debug steep
 
 
 docker-compose up 
