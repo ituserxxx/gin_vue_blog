@@ -17,5 +17,5 @@ if [ -n "$Img" ];then
   docker rmi -f ${ImgName}
   echo "$ImgName -images remove"
 fi
-docker build -t ${ImgName} .
+docker build  --network host -t ${ImgName} .
 docker-compose -f docker-compose-dev.yml up -d
