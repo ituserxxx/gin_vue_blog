@@ -1,8 +1,4 @@
 #!/bin/bash
-
-
-
-
 source .dev.env
 function create_netwrok(){
   networkIsExists=$(docker network ls --filter name=$network_name -q)
@@ -12,6 +8,7 @@ function create_netwrok(){
       echo "$network_name ---network [created succ]"
   fi
 }
+
 function run_api_doc_cn(){
   isExists=$(docker ps -aqf "name=$cn_api_doc")
   if [ -n "$isExists" ];then
@@ -32,8 +29,8 @@ function run_api_doc_cn(){
   --privileged=true \
   star7th/showdoc
   echo "$cn_api_doc ---container [created succ]"
-
 }
+
 function run_mysql_cn() {
   isExists=$(docker ps -aqf "name=$cn_mysql")
   if [ -n "$isExists" ];then
@@ -65,6 +62,7 @@ function run_mysql_cn() {
   --collation-server=utf8mb4_general_ci
   echo "$cn_mysql ---container [created succ]"
 }
+
 function run_mysql_admin_cn(){
    isExists=$(docker ps -aqf "name=$cn_mysql_admin")
   if [ -n "$isExists" ];then
@@ -83,6 +81,7 @@ function run_mysql_admin_cn(){
   phpmyadmin/phpmyadmin
   echo "$cn_mysql_admin ---container [created succ]"
 }
+
 function run_nginx() {
   isExists=$(docker ps -aqf "name=$cn_nginx")
   if [ -n "$isExists" ];then
@@ -96,27 +95,29 @@ function run_nginx() {
   -p $port_nginx_4:6004 \
   --network=$network_name \
   --restart=on-failure  \
-  -v $PWD/admin/dist:/app/amdin \
+  -v $PWD/admin/dist:/app/admin \
   -v $PWD/vue-front/dist:/app/front \
   -v $dev_path/nginx/nginx.conf:/etc/nginx/nginx.conf \
   -v $dev_path/nginx/conf.d:/etc/nginx/conf.d \
   nginx
 }
+
 function re_build_api_image(){
-  api_cn=$(docker ps -aqf "name=$cn_blog_go_api")
-  img_api=$(docker images -q --filter reference=$img_go_api)
+  cn_is_exists=$(docker ps -aqf "name=$cn_blog_go_api")
+  img_is_exists=$(docker images -q --filter reference=$img_go_api)
 
-  if [ -n "$api_cn" ];then
-      docker rm -f ${api_cn}
-      echo "$api_cn ---container remove"
+  if [ -n "$cn_is_exists" ];then
+      docker rm -f $cn_blog_go_api
+      echo "$cn_blog_go_api ---container remove"
   fi
 
-  if [ -n "$img_api" ];then
-    docker rmi -f $img_api
-    echo "$img_api -images remove"
+  if [ -n "$img_is_exists" ];then
+    docker rmi -f $img_go_api
+    echo "$img_go_api ----images remove"
   fi
-  cd $PWD/gin-server && docker build --network $network_name -t  $img_go_api  .
+  docker build -f $PWD/gin-server/Dockerfile --no-cache --force-rm --network $network_name -t  $img_go_api $PWD/gin-server/
 }
+
 function run_go_api() {
   re_build_api_image
   docker run -itd \
@@ -129,29 +130,66 @@ function run_go_api() {
   -v /usr/share/zoneinfo/Asia/:/usr/share/zoneinfo/Asia/ \
   $img_go_api
 }
-function run_docker_compose(){
-  docker-compose  -f $PWD/docker-compose-test.yml stop
-  re_build_api_image
-  docker-compose  -f $PWD/docker-compose-test.yml up -d
 
+function run_docker_compose(){
+  del_all_container
+  re_build_api_image
+  docker compose --env-file $PWD/.dev.env -f $PWD/docker-compose-test.yml up -d
 }
+
 function stop_all_container() {
   docker stop $cn_api_doc $cn_mysql $cn_mysql_admin $cn_nginx $cn_blog_go_api
   echo "---container [stop all succ]---"
 }
 
-if [[ "$1" == "stop" ]]; then
- stop_all_container
-elif [[  "$1" == "compose" ]]; then
-  run_docker_compose
-else
-  create_netwrok
+function del_all_container() {
+  stop_all_container
+  docker rm $cn_api_doc $cn_mysql $cn_mysql_admin $cn_nginx $cn_blog_go_api
+  docker rmi -f $img_go_api
+  echo "---container and image  [rm all succ]---"
+}
+function run_cn() {
   run_api_doc_cn
   run_mysql_cn
   run_mysql_admin_cn
   run_nginx
   run_go_api
+}
+function help() {
+    echo " params is required, use some ....
+--- stop : stop all container
+--- rm : del all container and images
+--- start : start all services
+--- restart : [rm] + [start]
+    "
+}
+
+
+if [[ "$1" == "stop" ]]; then
+ stop_all_container
+fi
+if [[  "$1" == "rm" ]]; then
+  del_all_container
+  docker network rm $network_name
+fi
+if [[  "$1" == "restart" ]]; then
+  create_netwrok
+  del_all_container
+  run_cn
+fi
+if [[  "$1" == "start" ]]; then
+  create_netwrok
+  run_cn
+fi
+if [[  "$1" == "compose" ]]; then
+  create_netwrok
+  run_docker_compose
+fi
+if [[  "$1" == "ps" ]]; then
+  docker ps --filter network=$network
 fi
 
-
+if [[  "$1" == "" ]];then
+  help
+fi
 

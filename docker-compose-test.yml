@@ -2,8 +2,6 @@ version: '3'
 services:
   blog_mysql:
     image: mysql:8.0
-    env_file:
-      - $PWD/.dev.env
     container_name: $cn_mysql
     restart: on-failure
     ports:
@@ -11,7 +9,7 @@ services:
     volumes:
       - $dev_path/mysql/data:/var/lib/mysql
       - $dev_path/mysql/my.cnf:/etc/my.cnf
-      - .$dev_path/mysql/init:/docker-entrypoint-initdb.d
+      - $dev_path/mysql/init:/docker-entrypoint-initdb.d
     environment:
       - TZ=Asia/Shanghai
       - LANG=C.UTF-8
@@ -23,12 +21,9 @@ services:
       --default-authentication-plugin=mysql_native_password
       --character-set-server=utf8mb4
       --collation-server=utf8mb4_general_ci
-    networks:
-      - $network_name
+
   blog_mysql_admin:
     image: phpmyadmin/phpmyadmin
-    env_file:
-      - $PWD/.dev.env
     container_name: $cn_mysql_admin
     ports:
       - $port_mysql_admin:80
@@ -40,13 +35,9 @@ services:
       - PMA_HOST=$cn_mysql
     depends_on:
       - blog_mysql
-    networks:
-      - $network_name
 
   blog_nginx:
     image: nginx
-    env_file:
-      - $PWD/.dev.env
     container_name: $cn_nginx
     restart: on-failure
     ports:
@@ -59,13 +50,9 @@ services:
       - $PWD/vue-front/dist:/app/front
     links:
       - blog_api
-    networks:
-      - $network_name
 
   blog_api:
     image: $img_go_api
-    env_file:
-      - $PWD/.dev.env
     container_name: $cn_blog_go_api
     restart: on-failure
     ports:
@@ -78,11 +65,18 @@ services:
       - blog_mysql
     depends_on:
      - blog_mysql
-    networks:
-      - $network_name
+  blog_api_doc:
+    image: star7th/showdoc
+    container_name: $cn_api_doc
+    restart: on-failure
+    ports:
+      - $port_api_doc:6008
+    volumes:
+      - $dev_path/api_doc/html:/var/www/html/
+    environment:
+      - user=root
+      - privileged=true
 
-networks:
-  some_static_name:
-    external: true
-    name: ${network_name}
+
+
 
