@@ -8,7 +8,6 @@ function create_netwrok(){
       echo "$network_name ---network [created succ]"
   fi
 }
-
 function run_api_doc_cn(){
   isExists=$(docker ps -aqf "name=$cn_api_doc")
   if [ -n "$isExists" ];then
@@ -30,7 +29,6 @@ function run_api_doc_cn(){
   star7th/showdoc
   echo "$cn_api_doc ---container [created succ]"
 }
-
 function run_mysql_cn() {
   isExists=$(docker ps -aqf "name=$cn_mysql")
   if [ -n "$isExists" ];then
@@ -62,7 +60,6 @@ function run_mysql_cn() {
   --collation-server=utf8mb4_general_ci
   echo "$cn_mysql ---container [created succ]"
 }
-
 function run_mysql_admin_cn(){
    isExists=$(docker ps -aqf "name=$cn_mysql_admin")
   if [ -n "$isExists" ];then
@@ -81,7 +78,6 @@ function run_mysql_admin_cn(){
   phpmyadmin/phpmyadmin
   echo "$cn_mysql_admin ---container [created succ]"
 }
-
 function run_nginx() {
   isExists=$(docker ps -aqf "name=$cn_nginx")
   if [ -n "$isExists" ];then
@@ -101,7 +97,6 @@ function run_nginx() {
   -v $dev_path/nginx/conf.d:/etc/nginx/conf.d \
   nginx
 }
-
 function re_build_api_image(){
   cn_is_exists=$(docker ps -aqf "name=$cn_blog_go_api")
   img_is_exists=$(docker images -q --filter reference=$img_go_api)
@@ -117,7 +112,6 @@ function re_build_api_image(){
   fi
   docker build -f $PWD/gin-server/Dockerfile --no-cache --force-rm --network $network_name -t  $img_go_api $PWD/gin-server/
 }
-
 function run_go_api() {
   re_build_api_image
   docker run -itd \
@@ -130,18 +124,15 @@ function run_go_api() {
   -v /usr/share/zoneinfo/Asia/:/usr/share/zoneinfo/Asia/ \
   $img_go_api
 }
-
 function run_docker_compose(){
   del_all_container
   re_build_api_image
   docker compose --env-file $PWD/.dev.env -f $PWD/docker-compose-test.yml up -d
 }
-
 function stop_all_container() {
   docker stop $cn_api_doc $cn_mysql $cn_mysql_admin $cn_nginx $cn_blog_go_api
   echo "---container [stop all succ]---"
 }
-
 function del_all_container() {
   stop_all_container
   docker rm $cn_api_doc $cn_mysql $cn_mysql_admin $cn_nginx $cn_blog_go_api
