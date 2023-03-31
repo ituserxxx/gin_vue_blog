@@ -147,7 +147,9 @@ function run_cn() {
   run_go_api
 }
 function help() {
-    echo " params is required, use some ....
+    echo "params is required, use some ....
+--- ps : show all cmd
+--- compose : start by docker compose
 --- stop : stop all container
 --- rm : del all container and images
 --- start : start all services
