@@ -1,13 +1,12 @@
-use std::convert::Infallible;
-use warp::{Filter, Reply};
+mod router;
 
 #[tokio::main]
 async fn main() {
-    let hello = warp::path!("hello" / String)
-        .map(|name| format!("Hello, {}!", name));
-
-    let goodbye = warp::path!("goodbye" / String)
-        .map(|name| format!("Goodbye, {}!", name));
-    let routes = hello.or(goodbye);
-    warp::serve(routes).run(([127, 0, 0, 1], 8000)).await;
+    let app = router::load_router();
+    let address = "127.0.0.1:3019";
+    println!("server listening on {}", address);
+    axum::Server::bind(&address.parse().unwrap())
+        .serve(app.into_make_service())
+        .await
+        .unwrap();
 }
