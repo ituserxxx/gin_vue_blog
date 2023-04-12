@@ -1,0 +1,11 @@
+/data/project/go/gin_vue_blog/rust_api_v2/target/debug/deps/libpin_project_internal-3cd0eedb50e0bbca.so: /root/.cargo/registry/src/github.com-1ecc6299db9ec823/pin-project-internal-1.0.12/src/lib.rs /root/.cargo/registry/src/github.com-1ecc6299db9ec823/pin-project-internal-1.0.12/src/utils.rs /root/.cargo/registry/src/github.com-1ecc6299db9ec823/pin-project-internal-1.0.12/src/pin_project/mod.rs /root/.cargo/registry/src/github.com-1ecc6299db9ec823/pin-project-internal-1.0.12/src/pin_project/args.rs /root/.cargo/registry/src/github.com-1ecc6299db9ec823/pin-project-internal-1.0.12/src/pin_project/attribute.rs /root/.cargo/registry/src/github.com-1ecc6299db9ec823/pin-project-internal-1.0.12/src/pin_project/derive.rs /root/.cargo/registry/src/github.com-1ecc6299db9ec823/pin-project-internal-1.0.12/src/pinned_drop.rs
+
+/data/project/go/gin_vue_blog/rust_api_v2/target/debug/deps/pin_project_internal-3cd0eedb50e0bbca.d: /root/.cargo/registry/src/github.com-1ecc6299db9ec823/pin-project-internal-1.0.12/src/lib.rs /root/.cargo/registry/src/github.com-1ecc6299db9ec823/pin-project-internal-1.0.12/src/utils.rs /root/.cargo/registry/src/github.com-1ecc6299db9ec823/pin-project-internal-1.0.12/src/pin_project/mod.rs /root/.cargo/registry/src/github.com-1ecc6299db9ec823/pin-project-internal-1.0.12/src/pin_project/args.rs /root/.cargo/registry/src/github.com-1ecc6299db9ec823/pin-project-internal-1.0.12/src/pin_project/attribute.rs /root/.cargo/registry/src/github.com-1ecc6299db9ec823/pin-project-internal-1.0.12/src/pin_project/derive.rs /root/.cargo/registry/src/github.com-1ecc6299db9ec823/pin-project-internal-1.0.12/src/pinned_drop.rs
+
+/root/.cargo/registry/src/github.com-1ecc6299db9ec823/pin-project-internal-1.0.12/src/lib.rs:
+/root/.cargo/registry/src/github.com-1ecc6299db9ec823/pin-project-internal-1.0.12/src/utils.rs:
+/root/.cargo/registry/src/github.com-1ecc6299db9ec823/pin-project-internal-1.0.12/src/pin_project/mod.rs:
+/root/.cargo/registry/src/github.com-1ecc6299db9ec823/pin-project-internal-1.0.12/src/pin_project/args.rs:
+/root/.cargo/registry/src/github.com-1ecc6299db9ec823/pin-project-internal-1.0.12/src/pin_project/attribute.rs:
+/root/.cargo/registry/src/github.com-1ecc6299db9ec823/pin-project-internal-1.0.12/src/pin_project/derive.rs:
+/root/.cargo/registry/src/github.com-1ecc6299db9ec823/pin-project-internal-1.0.12/src/pinned_drop.rs:
