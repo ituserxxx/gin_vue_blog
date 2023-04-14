@@ -11,7 +11,7 @@ pub struct HelloRes {
 pub struct AddUserReq {
     #[validate(length(min = 1, max = 15, message = "用户名必填"))]
     pub name: Option<String>,
-    #[validate(required)]
+    #[validate(required,length(min = 1, message = "用户名必填"))]
     pub phone: Option<String>,
 }
 
