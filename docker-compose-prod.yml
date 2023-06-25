@@ -1,0 +1,82 @@
+version: '3'
+services:
+  blog_mysql:
+    image: mysql:8.0
+    container_name: $cn_mysql
+    restart: on-failure
+    ports:
+      - $port_mysql:3306
+    volumes:
+      - $dev_path/mysql/data:/var/lib/mysql
+      - $dev_path/mysql/my.cnf:/etc/my.cnf
+      - $dev_path/mysql/init:/docker-entrypoint-initdb.d
+    environment:
+      - TZ=Asia/Shanghai
+      - LANG=C.UTF-8
+      - MYSQL_DATABASE=$db
+      - MYSQL_USER=$db_user
+      - MYSQL_PASSWORD=$db_pass
+      - MYSQL_ROOT_PASSWORD=$db_root_pass
+    command:
+      --default-authentication-plugin=mysql_native_password
+      --character-set-server=utf8mb4
+      --collation-server=utf8mb4_general_ci
+
+  blog_mysql_admin:
+    image: phpmyadmin/phpmyadmin
+    container_name: $cn_mysql_admin
+    ports:
+      - $port_mysql_admin:80
+    environment:
+      - PMA_ARBITRARY=0
+      - MYSQL_USER=$db_user
+      - MYSQL_PASSWORD=$db_root_pass
+      - MYSQL_ROOT_PASSWORD=$db_root_pass
+      - PMA_HOST=$cn_mysql
+    depends_on:
+      - blog_mysql
+
+  blog_nginx:
+    image: nginx
+    container_name: $cn_nginx
+    restart: on-failure
+    ports:
+      - $port_nginx_3:6003
+      - $port_nginx_4:6004
+    volumes:
+      - $dev_path/nginx/nginx.conf:/etc/nginx/nginx.conf
+      - $dev_path/nginx/conf.d:/etc/nginx/conf.d
+      - $PWD/admin/dist:/app/admin
+      - $PWD/vue-front/dist:/app/front
+    links:
+      - blog_api
+
+  blog_api:
+    image: $img_go_api
+    container_name: $cn_blog_go_api
+    restart: on-failure
+    ports:
+      - $port_go_api:6008
+    volumes:
+      - /etc/timezone:/etc/timezone
+      - /etc/localtime:/etc/localtime
+      - /usr/share/zoneinfo/Asia/:/usr/share/zoneinfo/Asia/
+    links:
+      - blog_mysql
+    depends_on:
+     - blog_mysql
+  blog_api_doc:
+    image: star7th/showdoc
+    container_name: $cn_api_doc
+    restart: on-failure
+    ports:
+      - $port_api_doc:6008
+    volumes:
+      - $dev_path/api_doc/html:/var/www/html/
+    environment:
+      - user=root
+      - privileged=true
+
+
+
+
