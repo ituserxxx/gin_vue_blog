@@ -3,7 +3,7 @@ ENV GO111MODULE=on \
     CGO_ENABLED=0 \
     GOOS=linux \
     GOARCH=amd64 \
-    GOPROXY="https://mirrors.aliyun.com/goproxy/,direct"
+    GOPROXY="https://goproxy.io,direct"
 WORKDIR /app
 COPY config.toml go.mod main.go ./
 COPY application /app/application
