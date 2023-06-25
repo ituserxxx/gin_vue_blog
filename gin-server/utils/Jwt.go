@@ -5,9 +5,8 @@ import (
 	"github.com/gin-gonic/gin"
 	"github.com/gogf/gf/frame/g"
 	"github.com/gogf/gf/util/gconv"
+	"github.com/golang-jwt/jwt/v4"
 	"time"
-
-	"github.com/dgrijalva/jwt-go"
 )
 
 // 一些常量
@@ -18,21 +17,22 @@ var (
 	TokenInvalid     error = errors.New("couldn't handle this token")
 )
 
+
 // 载荷，可以加一些自己需要的信息
 type CustomClaims struct {
 	UID int
-	jwt.StandardClaims
+	jwt.RegisteredClaims
 }
 
 // JWT 签名结构
 type JWT struct {
-	SigningKey []byte
+	SigningKey []byte `json:"signing_key"`
 }
 
 // 新建一个jwt实例
 func NewJWT() *JWT {
 	return &JWT{
-		[]byte(g.Config().GetString("jwt.SignKey")),
+		SigningKey:[]byte(g.Config().GetString("jwt.SignKey")),
 	}
 }
 
@@ -45,15 +45,18 @@ func (j *JWT) CreateToken(claims CustomClaims) (string, error) {
 // 生成令牌
 func GenerateToken(ctx *gin.Context, Id string) string {
 	j := NewJWT()
-	claims := CustomClaims{
-		UID: gconv.Int(Id),
-		StandardClaims: jwt.StandardClaims{
-			NotBefore: time.Now().Unix() - 1000, // 签名生效时间
-			ExpiresAt: time.Now().Unix() + 3600, // 过期时间 一小时
-			Issuer:    "newtrekWang",            //签名的发行者
+	type cus struct {
+		UID int
+		jwt.RegisteredClaims
+	}
+	claims := cus{
+		gconv.Int(Id),
+		jwt.RegisteredClaims{
+			ExpiresAt: jwt.NewNumericDate(time.Now().Add(time.Hour)),
 		},
 	}
-	token, err := j.CreateToken(claims)
+
+	token, err :=  j.CreateToken(CustomClaims(claims))
 	if err != nil {
 		g.Log(err.Error())
 		return err.Error()
@@ -76,7 +79,7 @@ func (j *JWT) RefreshToken(tokenString string) (string, error) {
 	}
 	if claims, ok := token.Claims.(*CustomClaims); ok && token.Valid {
 		jwt.TimeFunc = time.Now
-		claims.StandardClaims.ExpiresAt = time.Now().Add(1 * time.Hour).Unix()
+		claims.ExpiresAt =jwt.NewNumericDate(time.Now().Add(time.Hour))
 		return j.CreateToken(*claims)
 	}
 	return "", TokenInvalid

@@ -1,0 +1,12 @@
+/data/project/go/gin_vue_blog/rust_api_v2/target/debug/deps/proc_macro_error-0b79a4a7964b79ad.rmeta: /root/.cargo/registry/src/github.com-1ecc6299db9ec823/proc-macro-error-1.0.4/src/lib.rs /root/.cargo/registry/src/github.com-1ecc6299db9ec823/proc-macro-error-1.0.4/src/dummy.rs /root/.cargo/registry/src/github.com-1ecc6299db9ec823/proc-macro-error-1.0.4/src/diagnostic.rs /root/.cargo/registry/src/github.com-1ecc6299db9ec823/proc-macro-error-1.0.4/src/macros.rs /root/.cargo/registry/src/github.com-1ecc6299db9ec823/proc-macro-error-1.0.4/src/sealed.rs /root/.cargo/registry/src/github.com-1ecc6299db9ec823/proc-macro-error-1.0.4/src/imp/fallback.rs
+
+/data/project/go/gin_vue_blog/rust_api_v2/target/debug/deps/libproc_macro_error-0b79a4a7964b79ad.rlib: /root/.cargo/registry/src/github.com-1ecc6299db9ec823/proc-macro-error-1.0.4/src/lib.rs /root/.cargo/registry/src/github.com-1ecc6299db9ec823/proc-macro-error-1.0.4/src/dummy.rs /root/.cargo/registry/src/github.com-1ecc6299db9ec823/proc-macro-error-1.0.4/src/diagnostic.rs /root/.cargo/registry/src/github.com-1ecc6299db9ec823/proc-macro-error-1.0.4/src/macros.rs /root/.cargo/registry/src/github.com-1ecc6299db9ec823/proc-macro-error-1.0.4/src/sealed.rs /root/.cargo/registry/src/github.com-1ecc6299db9ec823/proc-macro-error-1.0.4/src/imp/fallback.rs
+
+/data/project/go/gin_vue_blog/rust_api_v2/target/debug/deps/proc_macro_error-0b79a4a7964b79ad.d: /root/.cargo/registry/src/github.com-1ecc6299db9ec823/proc-macro-error-1.0.4/src/lib.rs /root/.cargo/registry/src/github.com-1ecc6299db9ec823/proc-macro-error-1.0.4/src/dummy.rs /root/.cargo/registry/src/github.com-1ecc6299db9ec823/proc-macro-error-1.0.4/src/diagnostic.rs /root/.cargo/registry/src/github.com-1ecc6299db9ec823/proc-macro-error-1.0.4/src/macros.rs /root/.cargo/registry/src/github.com-1ecc6299db9ec823/proc-macro-error-1.0.4/src/sealed.rs /root/.cargo/registry/src/github.com-1ecc6299db9ec823/proc-macro-error-1.0.4/src/imp/fallback.rs
+
+/root/.cargo/registry/src/github.com-1ecc6299db9ec823/proc-macro-error-1.0.4/src/lib.rs:
+/root/.cargo/registry/src/github.com-1ecc6299db9ec823/proc-macro-error-1.0.4/src/dummy.rs:
+/root/.cargo/registry/src/github.com-1ecc6299db9ec823/proc-macro-error-1.0.4/src/diagnostic.rs:
+/root/.cargo/registry/src/github.com-1ecc6299db9ec823/proc-macro-error-1.0.4/src/macros.rs:
+/root/.cargo/registry/src/github.com-1ecc6299db9ec823/proc-macro-error-1.0.4/src/sealed.rs:
+/root/.cargo/registry/src/github.com-1ecc6299db9ec823/proc-macro-error-1.0.4/src/imp/fallback.rs:

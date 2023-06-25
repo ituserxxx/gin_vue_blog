@@ -59,7 +59,7 @@ services:
   blog_api:
     image: blog_gin_api:v1
     container_name: blog_api_cn
-    restart: always
+    restart: on-failure
     ports:
       - "6008:6008"
     volumes:
