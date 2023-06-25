@@ -5,9 +5,8 @@ ImgName=blog_gin_api:v1
 
 ApiCnIsExists=$(docker ps -aqf "name=${ApiCn}")
 Img=$(docker images -q --filter reference=${ImgName})
-MysqlCn=$(docker ps -qf "name=blog_mysql_cn")
 
-docker-compose -f docker-compose-pro.yml stop
+docker compose -f docker-compose-pro.yml stop
 
 if [ -n "$ApiCnIsExists" ];then
     docker rm -f ${ApiCn}
@@ -19,4 +18,4 @@ if [ -n "$Img" ];then
   echo "$ImgName -images remove"
 fi
 docker build -t ${ImgName} .
-docker-compose -f docker-compose-pro.yml up -d
+docker compose -f docker-compose-pro.yml up -d
