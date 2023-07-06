@@ -2,31 +2,27 @@ const fs = require('fs')
 const globby = require('globby')
 
 const renamedArrayArgs = {
-  ext: ['extensions'],
-  rulesdir: ['rulePaths'],
-  plugin: ['overrideConfig', 'plugins'],
-  'ignore-pattern': ['overrideConfig', 'ignorePatterns']
-}
-
-const renamedObjectArgs = {
-  env: { key: ['overrideConfig', 'env'], def: true },
-  global: { key: ['overrideConfig', 'globals'], def: false }
+  ext: 'extensions',
+  env: 'envs',
+  global: 'globals',
+  rulesdir: 'rulePaths',
+  plugin: 'plugins',
+  'ignore-pattern': 'ignorePattern'
 }
 
 const renamedArgs = {
-  'inline-config': ['allowInlineConfig'],
-  rule: ['overrideConfig', 'rules'],
-  eslintrc: ['useEslintrc'],
-  c: ['overrideConfigFile'],
-  config: ['overrideConfigFile'],
-  'output-file': ['outputFile']
+  'inline-config': 'allowInlineConfig',
+  rule: 'rules',
+  eslintrc: 'useEslintrc',
+  c: 'configFile',
+  config: 'configFile'
 }
 
-module.exports = async function lint (args = {}, api) {
+module.exports = function lint (args = {}, api) {
   const path = require('path')
   const cwd = api.resolve('.')
   const { log, done, exit, chalk, loadModule } = require('@vue/cli-shared-utils')
-  const { ESLint } = loadModule('eslint', cwd, true) || require('eslint')
+  const { CLIEngine } = loadModule('eslint', cwd, true) || require('eslint')
   const extensions = require('./eslintOptions').extensions(api)
 
   const argsConfig = normalizeConfig(args)
@@ -40,11 +36,7 @@ module.exports = async function lint (args = {}, api) {
   const noFixWarningsPredicate = (lintResult) => lintResult.severity === 2
   config.fix = config.fix && (noFixWarnings ? noFixWarningsPredicate : true)
 
-  if (!config.overrideConfig) {
-    config.overrideConfig = {}
-  }
-
-  if (!fs.existsSync(api.resolve('.eslintignore')) && !config.overrideConfig.ignorePatterns) {
+  if (!fs.existsSync(api.resolve('.eslintignore')) && !config.ignorePattern) {
     // .eslintrc.js files (ignored by default)
     // However, we need to lint & fix them so as to make the default generated project's
     // code style consistent with user's selected eslint config.
@@ -52,59 +44,26 @@ module.exports = async function lint (args = {}, api) {
     // add our own customized ignore pattern here (in eslint, ignorePattern is
     // an addition to eslintignore, i.e. it can't be overridden by user),
     // following the principle of least astonishment.
-    config.overrideConfig.ignorePatterns = [
+    config.ignorePattern = [
       '!.*.js',
       '!{src,tests}/**/.*.js'
     ]
   }
-  /** @type {import('eslint').ESLint} */
-  const eslint = new ESLint(Object.fromEntries([
 
-    // File enumeration
-    'cwd',
-    'errorOnUnmatchedPattern',
-    'extensions',
-    'globInputPaths',
-    'ignore',
-    'ignorePath',
+  const engine = new CLIEngine(config)
 
-    // Linting
-    'allowInlineConfig',
-    'baseConfig',
-    'overrideConfig',
-    'overrideConfigFile',
-    'plugins',
-    'reportUnusedDisableDirectives',
-    'resolvePluginsRelativeTo',
-    'rulePaths',
-    'useEslintrc',
-
-    // Autofix
-    'fix',
-    'fixTypes',
-
-    // Cache-related
-    'cache',
-    'cacheLocation',
-    'cacheStrategy'
-  ].map(k => [k, config[k]])))
-
-  const defaultFilesToLint = []
-
-  for (const pattern of [
+  const defaultFilesToLint = [
     'src',
     'tests',
     // root config files
     '*.js',
     '.*.js'
-  ]) {
-    if ((await Promise.all(globby
-      .sync(pattern, { cwd, absolute: true })
-      .map(p => eslint.isPathIgnored(p))))
-      .some(r => !r)) {
-      defaultFilesToLint.push(pattern)
-    }
-  }
+  ]
+    .filter(pattern =>
+      globby
+        .sync(pattern, { cwd, absolute: true })
+        .some(p => !engine.isPathIgnored(p))
+    )
 
   const files = args._ && args._.length
     ? args._
@@ -119,53 +78,41 @@ module.exports = async function lint (args = {}, api) {
   if (!api.invoking) {
     process.cwd = () => cwd
   }
-  const resultResults = await eslint.lintFiles(files)
-  const reportErrorCount = resultResults.reduce((p, c) => p + c.errorCount, 0)
-  const reportWarningCount = resultResults.reduce((p, c) => p + c.warningCount, 0)
+  const report = engine.executeOnFiles(files)
   process.cwd = processCwd
 
-  const formatter = await eslint.loadFormatter(args.format || 'stylish')
-
-  if (config.outputFile) {
-    const outputFilePath = path.resolve(config.outputFile)
-    try {
-      fs.writeFileSync(outputFilePath, formatter.format(resultResults))
-      log(`Lint results saved to ${chalk.blue(outputFilePath)}`)
-    } catch (err) {
-      log(`Error saving lint results to ${chalk.blue(outputFilePath)}: ${chalk.red(err)}`)
-    }
-  }
+  const formatter = engine.getFormatter(args.format || 'codeframe')
 
   if (config.fix) {
-    await ESLint.outputFixes(resultResults)
+    CLIEngine.outputFixes(report)
   }
 
   const maxErrors = argsConfig.maxErrors || 0
   const maxWarnings = typeof argsConfig.maxWarnings === 'number' ? argsConfig.maxWarnings : Infinity
-  const isErrorsExceeded = reportErrorCount > maxErrors
-  const isWarningsExceeded = reportWarningCount > maxWarnings
+  const isErrorsExceeded = report.errorCount > maxErrors
+  const isWarningsExceeded = report.warningCount > maxWarnings
 
   if (!isErrorsExceeded && !isWarningsExceeded) {
     if (!args.silent) {
-      const hasFixed = resultResults.some(f => f.output)
+      const hasFixed = report.results.some(f => f.output)
       if (hasFixed) {
         log(`The following files have been auto-fixed:`)
         log()
-        resultResults.forEach(f => {
+        report.results.forEach(f => {
           if (f.output) {
             log(`  ${chalk.blue(path.relative(cwd, f.filePath))}`)
           }
         })
         log()
       }
-      if (reportWarningCount || reportErrorCount) {
-        console.log(formatter.format(resultResults))
+      if (report.warningCount || report.errorCount) {
+        console.log(formatter(report.results))
       } else {
         done(hasFixed ? `All lint errors auto-fixed.` : `No lint errors found!`)
       }
     }
   } else {
-    console.log(formatter.format(resultResults))
+    console.log(formatter(report.results))
     if (isErrorsExceeded && typeof argsConfig.maxErrors === 'number') {
       log(`Eslint found too many errors (maximum: ${argsConfig.maxErrors}).`)
     }
@@ -180,35 +127,14 @@ function normalizeConfig (args) {
   const config = {}
   for (const key in args) {
     if (renamedArrayArgs[key]) {
-      applyConfig(renamedArrayArgs[key], args[key].split(','))
-    } else if (renamedObjectArgs[key]) {
-      const obj = arrayToBoolObject(args[key].split(','), renamedObjectArgs[key].def)
-      applyConfig(renamedObjectArgs[key].key, obj)
+      config[renamedArrayArgs[key]] = args[key].split(',')
     } else if (renamedArgs[key]) {
-      applyConfig(renamedArgs[key], args[key])
+      config[renamedArgs[key]] = args[key]
     } else if (key !== '_') {
       config[camelize(key)] = args[key]
     }
   }
   return config
-
-  function applyConfig ([...keyPaths], value) {
-    let targetConfig = config
-    const lastKey = keyPaths.pop()
-    for (const k of keyPaths) {
-      targetConfig = targetConfig[k] || (targetConfig[k] = {})
-    }
-    targetConfig[lastKey] = value
-  }
-
-  function arrayToBoolObject (array, defaultBool) {
-    const object = {}
-    for (const element of array) {
-      const [key, value] = element.split(':')
-      object[key] = value != null ? value === 'true' : defaultBool
-    }
-    return object
-  }
 }
 
 function camelize (str) {

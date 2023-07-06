@@ -14,7 +14,7 @@ exports.config = (api, preset, rootOptions = {}) => {
 
   if (api.hasPlugin('babel') && !api.hasPlugin('typescript')) {
     config.parserOptions = {
-      parser: '@babel/eslint-parser'
+      parser: 'babel-eslint'
     }
   }
 
@@ -23,7 +23,7 @@ exports.config = (api, preset, rootOptions = {}) => {
   } else if (preset === 'standard') {
     config.extends.push('@vue/standard')
   } else if (preset === 'prettier') {
-    config.extends.push(...['eslint:recommended', 'plugin:prettier/recommended'])
+    config.extends.push(...['eslint:recommended', '@vue/prettier'])
   } else {
     // default
     config.extends.push('eslint:recommended')
@@ -34,7 +34,7 @@ exports.config = (api, preset, rootOptions = {}) => {
     // but that is not the case for prettier, as there are conflicting rules
     if (preset === 'prettier') {
       config.extends.pop()
-      config.extends.push(...['@vue/typescript/recommended', 'plugin:prettier/recommended'])
+      config.extends.push(...['@vue/typescript/recommended', '@vue/prettier', '@vue/prettier/@typescript-eslint'])
     } else {
       config.extends.push('@vue/typescript/recommended')
     }

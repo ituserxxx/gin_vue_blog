@@ -25,6 +25,9 @@ http.createServer(function (request, response) {
     if (url === '/blog/article/list') {
         data = postList()//此处就是接口返回的数据
     }
+    if (url === '/blog/tag/list') {
+        data = tagList()//此处就是接口返回的数据
+    }
 
     // 内容类型: text/plain
     response.writeHead(200, {'Content-Type': 'application/json; charset=UTF-8'})
@@ -53,4 +56,16 @@ function postList() {
         }],
         "total": 112
     }
+}
+
+function tagList() {
+    return [{
+        "id": 19,
+        "tag_name": "音乐",
+        "article_sum": 2
+    }, {
+        "id": 1,
+        "tag_name": "Git",
+        "article_sum": 2
+    }]
 }

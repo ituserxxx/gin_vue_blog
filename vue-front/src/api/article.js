@@ -6,3 +6,7 @@ export function articleDetailApi (data) {
 export function articleListApi (data) {
     return http.post('/article/list',data)
 }
+
+export function searchArticleApi (data) {
+    return http.post('/search/article',data)
+}

@@ -2,6 +2,7 @@
 import { createRouter,createWebHistory } from 'vue-router'
 import Home from '../view/Home.vue'
 import About from '../view/About.vue'
+import Search from '../view/Search.vue'
 import Tag from '../view/Tag.vue'
 import Detail from '../view/Detail.vue'
 const routerHistory = createWebHistory()
@@ -27,6 +28,11 @@ const routes = [
         path:'/Tag',
         name:'Tag',
         component:Tag
+    },
+    {
+        path:'/Search',
+        name:'Search',
+        component:Search
     },
     {
         path:'/Detail',

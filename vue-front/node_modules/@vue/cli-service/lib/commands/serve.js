@@ -3,9 +3,9 @@ const {
   error,
   hasProjectYarn,
   hasProjectPnpm,
+  openBrowser,
   IpcMessenger
 } = require('@vue/cli-shared-utils')
-const getBaseUrl = require('../util/getBaseUrl')
 
 const defaults = {
   host: '0.0.0.0',
@@ -13,9 +13,7 @@ const defaults = {
   https: false
 }
 
-/** @type {import('@vue/cli-service').ServicePlugin} */
 module.exports = (api, options) => {
-  const baseUrl = getBaseUrl(options)
   api.registerCommand('serve', {
     description: 'start development server',
     usage: 'vue-cli-service serve [options] [entry]',
@@ -38,6 +36,7 @@ module.exports = (api, options) => {
     const isInContainer = checkInContainer()
     const isProduction = process.env.NODE_ENV === 'production'
 
+    const url = require('url')
     const { chalk } = require('@vue/cli-shared-utils')
     const webpack = require('webpack')
     const WebpackDevServer = require('webpack-dev-server')
@@ -51,10 +50,12 @@ module.exports = (api, options) => {
     // configs that only matters for dev server
     api.chainWebpack(webpackConfig => {
       if (process.env.NODE_ENV !== 'production' && process.env.NODE_ENV !== 'test') {
-        if (!webpackConfig.get('devtool')) {
-          webpackConfig
-            .devtool('eval-cheap-module-source-map')
-        }
+        webpackConfig
+          .devtool('eval-cheap-module-source-map')
+
+        webpackConfig
+          .plugin('hmr')
+            .use(require('webpack/lib/HotModuleReplacementPlugin'))
 
         // https://github.com/webpack/webpack/issues/6642
         // https://github.com/vuejs/vue-cli/issues/3539
@@ -62,15 +63,10 @@ module.exports = (api, options) => {
           .output
             .globalObject(`(typeof self !== 'undefined' ? self : this)`)
 
-        if (
-          !process.env.VUE_CLI_TEST &&
-          (!options.devServer.client ||
-            options.devServer.client.progress !== false)
-        ) {
-          // the default progress plugin won't show progress due to infrastructreLogging.level
+        if (!process.env.VUE_CLI_TEST && options.devServer.progress !== false) {
           webpackConfig
             .plugin('progress')
-            .use(require('progress-webpack-plugin'))
+            .use(require('webpack/lib/ProgressPlugin'))
         }
       }
     })
@@ -91,7 +87,7 @@ module.exports = (api, options) => {
     // expose advanced stats
     if (args.dashboard) {
       const DashboardPlugin = require('../webpack/DashboardPlugin')
-      webpackConfig.plugins.push(new DashboardPlugin({
+      ;(webpackConfig.plugins = webpackConfig.plugins || []).push(new DashboardPlugin({
         type: 'serve'
       }))
     }
@@ -105,12 +101,7 @@ module.exports = (api, options) => {
     }
 
     // resolve server options
-    const modesUseHttps = ['https', 'http2']
-    const serversUseHttps = ['https', 'spdy']
-    const optionsUseHttps = modesUseHttps.some(modeName => !!projectDevServerOptions[modeName]) ||
-      (typeof projectDevServerOptions.server === 'string' && serversUseHttps.includes(projectDevServerOptions.server)) ||
-      (typeof projectDevServerOptions.server === 'object' && projectDevServerOptions.server !== null && serversUseHttps.includes(projectDevServerOptions.server.type))
-    const useHttps = args.https || optionsUseHttps || defaults.https
+    const useHttps = args.https || projectDevServerOptions.https || defaults.https
     const protocol = useHttps ? 'https' : 'http'
     const host = args.host || process.env.HOST || projectDevServerOptions.host || defaults.host
     portfinder.basePort = args.port || process.env.PORT || projectDevServerOptions.port || defaults.port
@@ -121,13 +112,12 @@ module.exports = (api, options) => {
         ? rawPublicUrl
         : `${protocol}://${rawPublicUrl}`
       : null
-    const publicHost = publicUrl ? /^[a-zA-Z]+:\/\/([^/?#]+)/.exec(publicUrl)[1] : undefined
 
     const urls = prepareURLs(
       protocol,
       host,
       port,
-      isAbsoluteUrl(baseUrl) ? '/' : baseUrl
+      isAbsoluteUrl(options.publicPath) ? '/' : options.publicPath
     )
     const localUrlForBrowser = publicUrl || urls.localUrlForBrowser
 
@@ -137,49 +127,37 @@ module.exports = (api, options) => {
     )
 
     // inject dev & hot-reload middleware entries
-    let webSocketURL
     if (!isProduction) {
-      if (publicHost) {
+      const sockPath = projectDevServerOptions.sockPath || '/sockjs-node'
+      const sockjsUrl = publicUrl
         // explicitly configured via devServer.public
-        webSocketURL = {
-          protocol: protocol === 'https' ? 'wss' : 'ws',
-          hostname: publicHost,
-          port
-        }
-      } else if (isInContainer) {
-        // can't infer public network url if inside a container
-        // infer it from the browser instead
-        webSocketURL = 'auto://0.0.0.0:0/ws'
-      } else {
-        // otherwise infer the url from the config
-        webSocketURL = {
-          protocol: protocol === 'https' ? 'wss' : 'ws',
-          hostname: urls.lanUrlForConfig || 'localhost',
-          port
-        }
-      }
-
+        ? `?${publicUrl}&sockPath=${sockPath}`
+        : isInContainer
+          // can't infer public network url if inside a container...
+          // use client-side inference (note this would break with non-root publicPath)
+          ? ``
+          // otherwise infer the url
+          : `?` + url.format({
+            protocol,
+            port,
+            hostname: urls.lanUrlForConfig || 'localhost'
+          }) + `&sockPath=${sockPath}`
+      const devClients = [
+        // dev server client
+        require.resolve(`webpack-dev-server/client`) + sockjsUrl,
+        // hmr client
+        require.resolve(projectDevServerOptions.hotOnly
+          ? 'webpack/hot/only-dev-server'
+          : 'webpack/hot/dev-server')
+        // TODO custom overlay client
+        // `@vue/cli-overlay/dist/client`
+      ]
       if (process.env.APPVEYOR) {
-        webpackConfig.plugins.push(
-          new webpack.EntryPlugin(__dirname, 'webpack/hot/poll?500', { name: undefined })
-        )
+        devClients.push(`webpack/hot/poll?500`)
       }
+      // inject dev/hot client
+      addDevClientToEntry(webpackConfig, devClients)
     }
-
-    const { projectTargets } = require('../util/targets')
-    const supportsIE = !!projectTargets
-    if (supportsIE) {
-      webpackConfig.plugins.push(
-        // must use undefined as name,
-        // to avoid dev server establishing an extra ws connection for the new entry
-        new webpack.EntryPlugin(__dirname, 'whatwg-fetch', { name: undefined })
-      )
-    }
-
-    // fixme: temporary fix to suppress dev server logging
-    // should be more robust to show necessary info but not duplicate errors
-    webpackConfig.infrastructureLogging = { ...webpackConfig.infrastructureLogging, level: 'none' }
-    webpackConfig.stats = 'errors-only'
 
     // create compiler
     const compiler = webpack(webpackConfig)
@@ -191,75 +169,53 @@ module.exports = (api, options) => {
     })
 
     // create server
-    const server = new WebpackDevServer(Object.assign({
+    const server = new WebpackDevServer(compiler, Object.assign({
+      logLevel: 'silent',
+      clientLogLevel: 'silent',
       historyApiFallback: {
         disableDotRule: true,
-        htmlAcceptHeaders: [
-          'text/html',
-          'application/xhtml+xml'
-        ],
-        rewrites: genHistoryApiFallbackRewrites(baseUrl, options.pages)
+        rewrites: genHistoryApiFallbackRewrites(options.publicPath, options.pages)
       },
-      hot: !isProduction
+      contentBase: api.resolve('public'),
+      watchContentBase: !isProduction,
+      hot: !isProduction,
+      injectClient: false,
+      compress: isProduction,
+      publicPath: options.publicPath,
+      overlay: isProduction // TODO disable this
+        ? false
+        : { warnings: false, errors: true }
     }, projectDevServerOptions, {
-      host,
-      port,
-
-      server: {
-        type: protocol,
-        ...(typeof projectDevServerOptions.server === 'object'
-          ? projectDevServerOptions.server
-          : {})
-      },
-
+      https: useHttps,
       proxy: proxySettings,
-
-      static: {
-        directory: api.resolve('public'),
-        publicPath: options.publicPath,
-        watch: !isProduction,
-
-        ...projectDevServerOptions.static
-      },
-
-      client: {
-        webSocketURL,
-
-        logging: 'none',
-        overlay: isProduction // TODO disable this
-          ? false
-          : { warnings: false, errors: true },
-        progress: !process.env.VUE_CLI_TEST,
-
-        ...projectDevServerOptions.client
-      },
-
-      open: args.open || projectDevServerOptions.open,
-      setupExitSignals: true,
-
-      setupMiddlewares (middlewares, devServer) {
+      // eslint-disable-next-line no-shadow
+      before (app, server) {
         // launch editor support.
         // this works with vue-devtools & @vue/cli-overlay
-        devServer.app.use('/__open-in-editor', launchEditorMiddleware(() => console.log(
+        app.use('/__open-in-editor', launchEditorMiddleware(() => console.log(
           `To specify an editor, specify the EDITOR env variable or ` +
           `add "editor" field to your Vue project config.\n`
         )))
-
         // allow other plugins to register middlewares, e.g. PWA
-        // todo: migrate to the new API interface
-        api.service.devServerConfigFns.forEach(fn => fn(devServer.app, devServer))
+        api.service.devServerConfigFns.forEach(fn => fn(app, server))
+        // apply in project middlewares
+        projectDevServerOptions.before && projectDevServerOptions.before(app, server)
+      },
+      // avoid opening browser
+      open: false
+    }))
 
-        if (projectDevServerOptions.setupMiddlewares) {
-          return projectDevServerOptions.setupMiddlewares(middlewares, devServer)
-        }
-
-        return middlewares
-      }
-    }), compiler)
+    ;['SIGINT', 'SIGTERM'].forEach(signal => {
+      process.on(signal, () => {
+        server.close(() => {
+          process.exit(0)
+        })
+      })
+    })
 
     if (args.stdin) {
       process.stdin.on('end', () => {
-        server.stopCallback(() => {
+        server.close(() => {
           process.exit(0)
         })
       })
@@ -273,7 +229,7 @@ module.exports = (api, options) => {
       process.stdin.on('data', data => {
         if (data.toString() === 'close') {
           console.log('got close signal!')
-          server.stopCallback(() => {
+          server.close(() => {
             process.exit(0)
           })
         }
@@ -336,6 +292,13 @@ module.exports = (api, options) => {
           }
           console.log()
 
+          if (args.open || projectDevServerOptions.open) {
+            const pageUri = (projectDevServerOptions.openPage && typeof projectDevServerOptions.openPage === 'string')
+              ? projectDevServerOptions.openPage
+              : ''
+            openBrowser(localUrlForBrowser + pageUri)
+          }
+
           // Send final app URL
           if (args.dashboard) {
             const ipc = new IpcMessenger()
@@ -358,9 +321,26 @@ module.exports = (api, options) => {
         }
       })
 
-      server.start().catch(err => reject(err))
+      server.listen(port, host, err => {
+        if (err) {
+          reject(err)
+        }
+      })
     })
   })
+}
+
+function addDevClientToEntry (config, devClient) {
+  const { entry } = config
+  if (typeof entry === 'object' && !Array.isArray(entry)) {
+    Object.keys(entry).forEach((key) => {
+      entry[key] = devClient.concat(entry[key])
+    })
+  } else if (typeof entry === 'function') {
+    config.entry = entry(devClient)
+  } else {
+    config.entry = devClient.concat(entry)
+  }
 }
 
 // https://stackoverflow.com/a/20012536
