@@ -36,3 +36,15 @@ func (a *articleApi) ArticleDetail(ctx *gin.Context) {
 	}
 	response.Succ(ctx, list)
 }
+
+func (a *articleApi) SearchArticleList(ctx *gin.Context) {
+	var req *in_out.SearchArticleListReq
+	if err := ctx.ShouldBind(&req); err != nil {
+		response.Err(ctx, constant.Error, err.Error())
+	}
+	list, err := service.Article.SearchArticleList(ctx, req.Content)
+	if err != nil {
+		response.Err(ctx, constant.Handle_Error, err.Error())
+	}
+	response.Succ(ctx, list)
+}

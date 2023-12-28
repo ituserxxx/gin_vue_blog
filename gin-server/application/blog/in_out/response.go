@@ -19,3 +19,7 @@ type ArticleDetailResp struct {
 	CreateTime *gtime.Time `json:"create_time" `
 	UpdateTime *gtime.Time `json:"update_time" `
 }
+type SearchArticleListResp struct {
+	ArticleList []interface{} `json:"article_list"`
+	Total       int                  `json:"total"`
+}

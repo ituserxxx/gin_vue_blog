@@ -16,6 +16,7 @@ func main() {
 	r := gin.New()
 	r = gin.Default()
 	utils.ConnectDB()
+	utils.Meili.Init("http://localhost:7700","RWzzZQj1UWqKQLmOaP7HleQIWaRAc8HA-LjpBNfJCAo")
 	defer utils.DisconnectDB()
 	router.LoadBlogRoutes(r)
 	router.LoadAdminRoutes(r)
