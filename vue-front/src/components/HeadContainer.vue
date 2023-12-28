@@ -18,6 +18,9 @@
             <span class="menu-title">{{ val.title }}</span>
           </router-link>
         </el-menu-item>
+        <el-menu-item>
+          <a href="https://github.com/ituserxxx" target="_blank" rel="noopener noreferrer">Github</a>
+        </el-menu-item>
       </el-menu>
     </el-header>
   </div>

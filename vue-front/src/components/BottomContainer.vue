@@ -2,9 +2,9 @@
   <div class="BottomContainer">
     <el-footer>
      
-     by 微甜哦
+     by 微甜人生
      
-      <el-link type="info" href="https://beian.miit.gov.cn/">蜀ICP备18038087号-2</el-link>
+      <el-link type="info" href="https://beian.miit.gov.cn/">蜀ICP备18038087号-6</el-link>
      </el-footer>
   </div>
 </template>

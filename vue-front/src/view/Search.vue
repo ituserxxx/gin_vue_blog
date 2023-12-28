@@ -4,17 +4,17 @@
       <el-input placeholder="搜索一下吧～～" v-model="input_search">
       </el-input>
     </div>
-    <el-empty :image-size="200" v-if="article_list.length === 0"></el-empty>
+    <el-empty :image-size="200" v-if="total === 0"></el-empty>
 
     <div class="article_list"  v-else >
       <el-timeline-item
       hide-timestamp="true"
       v-for="(activity, index) in article_list"
           :key="index"
-          @click="gotoDetail(activity.id)"
+          @click="gotoDetail(activity.ID)"
       >
         <el-card  >
-          <h4>{{ activity.title }}</h4>
+          <h4>{{ activity.Title }}</h4>
         </el-card>
       </el-timeline-item>
     </div>
@@ -35,8 +35,8 @@ export default {
     return {
       input_search: "",
       article_list: [],
-      article_page: 1,
-      article_length: 0
+      total:0,
+
     }
   },
   watch: {
@@ -63,7 +63,6 @@ export default {
           .then((res) => {
               this.article_list = res.data.article_list;
               this.total = res.data.total;
-              this.article_length = res.data.total;
           })
           .catch((err) => {
             console.log(err);
