@@ -57,12 +57,9 @@ export default {
     searchArticle(inputValue) {
       searchArticleApi({content: inputValue,})
           .then((res) => {
-            if (Object.keys(res.data).length === 0){
               this.article_list = res.data.article_list;
               this.total = res.data.total;
               this.article_length = res.data.total;
-            }
-
           })
           .catch((err) => {
             console.log(err);

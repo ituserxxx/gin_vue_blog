@@ -15,6 +15,7 @@ func LoadBlogRoutes(r *gin.Engine) {
 		api.POST("/article/detail", blogApi.ArticleApi.ArticleDetail)
 		api.POST("/tag/list", blogApi.TagApi.TagList)
 		api.POST("/tag/article/list", blogApi.TagApi.TagArticleList)
+		api.POST("/search/article", blogApi.ArticleApi.HomeArticleList)
 	}
 
 }
