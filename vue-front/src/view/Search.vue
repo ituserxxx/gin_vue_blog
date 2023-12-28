@@ -4,19 +4,23 @@
       <el-input placeholder="搜索一下吧～～" v-model="input_search">
       </el-input>
     </div>
-    <el-empty :image-size="200" v-if="article_length === 0"></el-empty>
-    <div class="tag_article_list" v-if="article_length > 0">
+    <el-empty :image-size="200" v-if="article_list.length === 0"></el-empty>
+
+    <div class="article_list"  v-else >
       <el-timeline-item
-          v-for="(activity, index) in article_list"
+      hide-timestamp="true"
+      v-for="(activity, index) in article_list"
           :key="index"
-          :hide-timestamp="true"
           @click="gotoDetail(activity.id)"
       >
-        <el-card>
+        <el-card  >
           <h4>{{ activity.title }}</h4>
         </el-card>
       </el-timeline-item>
     </div>
+
+
+    
 
   </el-main>
 </template>
@@ -75,5 +79,19 @@ export default {
 
 .input-with-select .el-input-group__prepend {
   background-color: #fff;
+}
+.article_list {
+  margin-top: 50px;
+  background-color: #e9eef3;
+  color: #333;
+  
+}
+.article_list li {
+  list-style-type: none;
+}
+.article_list li {
+  margin: 0% 20% 0px 20%;
+  text-align: center;
+  width: 60%;
 }
 </style>
