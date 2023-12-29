@@ -1,0 +1,33 @@
+# 运行服务
+version: '3'
+services:
+  blog_nginx:
+    image: nginx
+    container_name: blog_nginx_cn
+    restart: on-failure
+    ports:
+      - "6003:6003"
+      - "6004:6004"
+    volumes:
+      - ./nginx/nginx.conf:/etc/nginx/nginx.conf
+      - ./nginx/conf.d:/etc/nginx/conf.d
+      - ./admin:/app/admin
+      - ./front:/app/front
+    links:
+      - blog_api
+#  blog_api:
+#    image: blog_gin_api:v1
+#    container_name: blog_api_cn
+#    restart: on-failure
+#    ports:
+#      - "6008:6008"
+#    volumes:
+#      - /etc/timezone:/etc/timezone
+#      - /etc/localtime:/etc/localtime
+#      - /usr/share/zoneinfo/Asia/:/usr/share/zoneinfo/Asia/
+#    links:
+#      - blog_mysql
+#    depends_on:
+#     - blog_mysql
+
+
