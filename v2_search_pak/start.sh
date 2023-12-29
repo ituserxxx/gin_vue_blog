@@ -1,5 +1,5 @@
 #!/bin/bash
-
+mkdir -p /docker/blog/mysql
+cp -r mysql /docker/blog/
 docker compose -f docker-compose-env.yml up -d
-docker compose -f docker-compose-server.yml up -d
-go run blog_api_v2
+nohup ./blog_api_v2  &

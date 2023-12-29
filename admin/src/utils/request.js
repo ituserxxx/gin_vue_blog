@@ -7,7 +7,7 @@ import {getToken} from '@/utils/auth'
 const service = axios.create({
   // baseURL: process.env.VUE_APP_BASE_API, // url = base url + request url
   // baseURL: "http://127.0.0.1:6008/admin",
-  baseURL: `http://${window.location.hostname}/admin`,
+  baseURL: `http://vtian.top/admin`,
 
   // withCredentials: true, // send cookies when cross-domain requests
   timeout: 5000 // request timeout
