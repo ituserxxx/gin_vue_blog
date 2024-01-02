@@ -30,6 +30,7 @@ npm run build
 cd v2_search_pak
 cp -r ../vue-front/dist front
 cp -r ../admin/dist admin
+cp ../gin-server/blog_api_v2 ./
 ```
 
 ## 用docker-compose启动mysql数据库/数据库可视化web/美丽搜索服务
@@ -39,6 +40,9 @@ cd v2_search_pak
 mkdir -p /docker/blog/mysql
 cp -r mysql /docker/blog/
 docker compose -f docker-compose-env.yml up -d
-```
+``
 
-**或者一键执行 start.sh**
+## linux  执行
+```
+start.sh
+```

@@ -26,6 +26,7 @@ services:
   blog_mysql_admin:
     image: phpmyadmin/phpmyadmin
     container_name: blog_mysql_admin_cn
+    restart: on-failure
     ports:
       - "6002:80"
     environment:
@@ -39,6 +40,7 @@ services:
   blog_meilisearch:
     image: getmeili/meilisearch:v1.5
     container_name: blog_meilisearch_cn
+    restart: on-failure
     ports:
       - "7700:7700"
     environment:

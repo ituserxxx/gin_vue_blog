@@ -1,6 +1,7 @@
 package middleware
 
 import (
+	"fmt"
 	"gin-server/constant"
 	"gin-server/library/response"
 	"gin-server/utils"
@@ -10,7 +11,8 @@ import (
 // JWTAuth 中间件，检查token
 func Jwt() gin.HandlerFunc {
 	return func(c *gin.Context) {
-		token := c.Request.Header.Get("j_token")
+		token := c.Request.Header.Get("J_token")
+		fmt.Printf("request token is %#v", c.Request.Header.Get("J_token"))
 		if token == "" {
 			response.Err(c, constant.TokenFail, "请求未携带token，无权限访问")
 			c.Abort()
