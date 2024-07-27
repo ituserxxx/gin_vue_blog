@@ -1,6 +1,6 @@
 <!-- 附件 -->
 <template>
-  <div class="header-right float-right  mt-5 mr-5">
+  <div class="header-right float-right  mt-6 mr-5">
     <div>
       <div
         v-if="item_info.item_edit"
@@ -8,12 +8,12 @@
         @click="showPageEdit = true"
       >
         <el-tooltip effect="dark" :content="$t('edit_page')">
-          <i class="el-icon-edit-outline"></i>
+          <i class="far fa-edit"></i>
         </el-tooltip>
       </div>
       <div class="icon-item" @click="showShare = true">
         <el-tooltip effect="dark" :content="$t('share')" placement="top">
-          <i class="el-icon-share"></i>
+          <i class="far fa-share-nodes"></i>
         </el-tooltip>
       </div>
       <div
@@ -26,7 +26,7 @@
           :content="$t('member_manage')"
           placement="top"
         >
-          <i class="el-icon-wind-power"></i>
+          <i class="fal fa-users"></i>
         </el-tooltip>
       </div>
       <div
@@ -41,7 +41,7 @@
         "
       >
         <el-tooltip effect="dark" :content="$t('login')" placement="top">
-          <i class="el-icon-user"></i>
+          <i class="far fa-user"></i>
         </el-tooltip>
       </div>
       <div
@@ -54,33 +54,32 @@
           :content="$t('about_showdoc')"
           placement="top"
         >
-          <i class="el-icon-help"></i>
+          <i class="far fa-circle-info"></i>
         </el-tooltip>
       </div>
       <div class="inline" v-if="item_info.item_manage">
         <el-dropdown :show-timeout="0" trigger="hover">
           <div class="icon-item">
             <span class="el-dropdown-link">
-              <i class="el-icon-more"></i>
+              <i class="far fa-ellipsis"></i>
             </span>
           </div>
 
           <el-dropdown-menu slot="dropdown">
             <el-dropdown-item divided @click.native="showItemUpdate = true">
-              <i class="el-icon-edit-outline"></i>
+              <i class="mr-2 far fa-edit"></i>
               {{ $t('update_item_base_info') }}
             </el-dropdown-item>
 
             <el-dropdown-item @click.native="showAttorn = true">
-              <i class="el-icon-refresh"></i>
               {{ $t('attorn_item') }}
             </el-dropdown-item>
             <el-dropdown-item @click.native="showArchive = true">
-              <i class="el-icon-dish"></i>
+              <i class="mr-2 far fa-box-archive"></i>
               {{ $t('archive_item') }}
             </el-dropdown-item>
             <el-dropdown-item @click.native="showDelete = true">
-              <i class="el-icon-delete"></i>
+              <i class="mr-2 far fa-trash-can"></i>
               {{ $t('delete_item') }}
             </el-dropdown-item>
           </el-dropdown-menu>
@@ -184,7 +183,7 @@ import Archive from '@/components/item/setting/Archive'
 import Attorn from '@/components/item/setting/Attorn'
 import Delete from '@/components/item/setting/Delete'
 import ItemUpdate from '@/components/item/add/Basic'
-import Share from '@/components/item/home/share'
+import Share from '@/components/item/home/Share'
 import PageEdit from '@/components/page/edit/Index'
 export default {
   components: {
@@ -240,7 +239,6 @@ export default {
   background-color: white;
   width: 40px;
   height: 40px;
-  font-size: 16px;
   justify-content: center; /*水平居中*/
   align-items: center; /*垂直居中*/
   display: inline-flex;

@@ -5,6 +5,7 @@
       :title="$t('history_version')"
       :onCancel="callback"
       :showCancel="false"
+      :showOk="false"
       :onOK="callback"
     >
       <el-table :data="content">
@@ -83,7 +84,6 @@ export default {
           this.dialogTableVisible = true
         } else {
           this.dialogTableVisible = false
-          this.$alert('no data')
         }
       })
     },

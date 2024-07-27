@@ -124,16 +124,18 @@ exports.default = {
     '警告！你现在的操作会删除整个项目，所有页面和目录数据在删除后将不可恢复！',
   attorn_username: '接受者用户名',
   archive_tips2:
-    '说明： 归档项目后，项目将无法再新增和修改内容，并且无法取消归档状态。 如想再次修改内容，可复制本项目，在新的项目基础上修改。复制项目的方法是，在创建项目的时候，选择从已有项目里复制。',
+    '说明： 归档项目后，项目将无法再新增和修改内容，并且无法取消归档状态。 如想再次修改内容，可复制本项目，在新的项目基础上修改。',
   success_jump: '操作成功！正在跳转...',
   reset_token: '重新生成api_token',
   open_api_tips1:
     'showdoc开放文档编辑的API，供使用者更加方便地操作文档数据。<br>利用开放API，你可以自动化地完成很多事',
   open_api_tips2:
-    '如果你想自动化生成API文档，则可参考<a target="_bank" href="https://www.showdoc.cc/page/741656402509783">API文档</a>',
+    '如果你想利用runapi客户端生成API文档，则可参考<a target="_bank" href="https://www.showdoc.cc/runapi">runapi介绍</a>',
   open_api_tips3:
-    '如果你想自动化生成数据字典，则可参考<a target="_bank" href="https://www.showdoc.cc/page/312209902620725">数据字典</a>',
+    '如果你想通过程序注释生成API文档，则可参考<a target="_bank" href="https://www.showdoc.cc/page/741656402509783">API文档</a>',
   open_api_tips4:
+    '如果你想自动化生成数据字典，则可参考<a target="_bank" href="https://www.showdoc.cc/page/312209902620725">数据字典</a>',
+  open_api_tips5:
     '如果你更自由地生成自己所需要的格式，则可参考<a target="_bank" href="https://www.showdoc.cc/page/102098">开放API</a>',
 
   // item/show
@@ -563,5 +565,15 @@ exports.default = {
   do_not_remind_again: '知道了,不用再提醒我',
   no_items: '暂无项目',
 
-  ai_assistant: 'AI助手生成'
+  ai_assistant: 'AI助手生成',
+
+  create: '创建',
+
+  search_keyword: '请输入搜索关键词',
+
+  add_sub_page: '添加页面',
+  add_sub_cat: '添加子文件夹',
+  add_si_bling_cat: '添加同级文件夹',
+  edt_cat: '编辑文件夹',
+  clone_move: '克隆/移动'
 }

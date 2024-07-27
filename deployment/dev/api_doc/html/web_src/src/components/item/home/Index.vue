@@ -1,14 +1,16 @@
 <template>
   <div class="hello">
     <div class="header">
-      <div @click="reload" class="logo float-left mt-4 ml-10  cursor-pointer">
-        <div>
-          <div class="inline-block align-middle">
-            <img src="static/logo/b_64.png" />
+      <div @click="reload" class="float-left ml-10">
+        <div class="logo">
+          <div class="logo-img-div">
+            <img class="logo-img" src="@/assets/Logo.svg" />
           </div>
-          <div class="inline-block align-middle">
-            <div class="v3-font-size-lg font-bold">ShowDoc</div>
-            <div class=" v3-color-aux">{{ $t('home_logo_title') }}</div>
+          <div class="">
+            <div class=" font-bold logo-title">ShowDoc</div>
+            <div class="v3-color-aux logo-desc">
+              {{ $t('home_logo_title') }}
+            </div>
           </div>
         </div>
       </div>
@@ -26,7 +28,8 @@
             @click="changeGroup(0)"
           >
             <div class="item-one-block-content">
-              <i class="el-icon-s-grid mr-1"></i>{{ $t('all_items') }}
+              <i class="mr-1 fas fa-notes"></i>
+              {{ $t('all_items') }}
             </div>
           </div>
           <div
@@ -38,7 +41,8 @@
             @click="changeGroup(-1)"
           >
             <div class="item-one-block-content">
-              <i class="el-icon-star-on mr-1"></i>{{ $t('star_items') }}
+              <i class="mr-1 v3-color-yellow fas fa-star"></i>
+              {{ $t('star_items') }}
             </div>
           </div>
         </div>
@@ -50,8 +54,8 @@
               effect="dark"
               :content="$t('item_group_desc')"
               placement="top"
-              ><i class="el-icon-plus mr-1"></i
-            ></el-tooltip>
+              ><i class="el-icon-plus mr-1"></i>
+            </el-tooltip>
           </div>
         </div>
         <div>
@@ -66,8 +70,20 @@
             @click="changeGroup(one.id)"
           >
             <div class="item-one-block-content">
-              <i class="mr-1 font-black">#</i> {{ one.group_name }}
+              <i class="mr-1 far v3-font-size-sm fa-hashtag"></i>
+              {{ one.group_name }}
             </div>
+          </div>
+        </div>
+        <div v-if="$lang == 'zh-cn'" class="left-bottom-bar">
+          <div class="content">
+            <i class="far fa-fire "></i>
+            调试API并自动生成文档
+            <a
+              class="text-link ml-2"
+              @click="toOutLink('https://www.showdoc.com.cn/runapi')"
+              >试试</a
+            >
           </div>
         </div>
       </div>
@@ -289,17 +305,41 @@ export default {
   border-bottom: 1px solid rgba(0, 0, 0, 0.05);
 }
 
+.logo {
+  display: flex;
+  align-items: center;
+  cursor: pointer;
+  height: 90px;
+}
+
+.logo-img-div {
+  display: flex;
+  align-items: center;
+  margin-right: 10px;
+}
+
+.logo-img {
+  width: 50px;
+  height: 50px;
+}
+.logo-title {
+  font-size: 20px;
+}
+.logo-desc {
+  font-size: 10px;
+}
+
 .el-dropdown-link,
 a {
   color: #343a40;
 }
 
 .container {
-  width: 850px;
+  max-width: 870px;
   margin: 0 auto;
 }
 .left-side {
-  width: 220px;
+  width: 230px;
   padding-top: 40px;
   border-right: 1px solid rgba(0, 0, 0, 0.05);
   min-height: calc(100vh - 150px);
@@ -310,13 +350,16 @@ a {
   position: relative;
   border-radius: 8px;
   cursor: pointer;
+  padding-left: 10px;
 }
 
 .item-one-block:hover {
   background-color: white;
+  margin-right: 10px;
 }
 .item-one-block-active {
   background-color: white;
+  margin-right: 10px;
 }
 
 .item-one-block-content {
@@ -330,7 +373,7 @@ a {
   font-size: 9px;
   color: #9b9b9b;
   display: inline;
-  margin-left: 10px;
+  margin-left: 1px;
 }
 .divider-icon {
   font-size: 11px;
@@ -366,5 +409,32 @@ a {
 
 .empty .text {
   font-size: 11px;
+}
+
+.left-bottom-bar {
+  position: fixed;
+  bottom: 10px;
+  text-align: center;
+  width: 230px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.left-bottom-bar .content {
+  width: 200px;
+  height: 30px;
+  line-height: 30px;
+  background-color: #fff3cd;
+  font-size: 12px;
+  color: #856404;
+  border: #ffeeba;
+  border-radius: 8px;
+}
+.left-bottom-bar .content .text-link {
+  font-size: 12px;
+  color: #856404;
+  cursor: pointer;
+  text-decoration: underline;
 }
 </style>

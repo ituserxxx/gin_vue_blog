@@ -64,7 +64,10 @@ class ItemController extends BaseController
         if ($keyword) {
             $keyword = strtolower($keyword);
             $keyword = \SQLite3::escapeString($keyword);
-            $pages = D("Page")->where("item_id = '$item_id' and is_del = 0  and ( lower(page_title) like '%{$keyword}%' or lower(page_content) like '%{$keyword}%' ) ")->order(" s_number asc  ")->field("page_id,author_uid,cat_id,page_title,addtime")->select();
+            $where = "item_id = '$item_id' and is_del = 0  and ( lower(page_title) like '%{$keyword}%' or lower(page_content) like '%{$keyword}%' ) " ;
+            // 如果用户被分配了 目录权限 ，则获取他在该项目下拥有权限的目录id
+            $cat_id = D("Member")->getCatId($item_id, $uid);
+            $menu['pages'] = $pages = D("Page")->search($item_id, $cat_id, $keyword);
             $menu['pages'] = $pages ? $pages : array();
             $menu['catalogs'] = array();
         } else {
@@ -194,8 +197,10 @@ class ItemController extends BaseController
         $where .= " or item_id in ( " . implode(",", $manage_member_item_ids) . " ) ";
         if ($item_group_id > 0) {
             $res = D("ItemGroup")->where(" id = '$item_group_id' ")->find();
-            if ($res) {
+            if ($res && $res['item_ids']) {
                 $where = " ({$where}) and item_id in ({$res['item_ids']}) ";
+            } else {
+                $where = " ({$where}) and item_id in (-1) ";
             }
         }
 
@@ -566,15 +571,17 @@ class ItemController extends BaseController
             }
         }
 
+        $item_id =  \SQLite3::escapeString($item_id);
+
         if ($page_id > 0) {
             $page = M("Page")->where(" page_id = '$page_id' ")->find();
             if ($page) {
                 $item_id = $page['item_id'];
             }
         }
-        $item = D("Item")->where("item_id = '$item_id' ")->find();
+        $item = D("Item")->where("item_id = '%d'", array($item_id))->find();
         if ($password && $item['password'] == $password) {
-            session("visit_item_" . $item_id, 1);
+            session("visit_item_" . $item['item_id'], 1);
             $this->sendResult(array("refer_url" => base64_decode($refer_url)));
         } else {
             $this->sendError(10010, L('access_password_are_incorrect'));
@@ -740,7 +747,9 @@ class ItemController extends BaseController
         }
         $item = D("Item")->where("item_id = '%d' and is_del = 0 ", array($item_id))->find();
         $keyword =  \SQLite3::escapeString($keyword);
-        $pages = D("Page")->search($item_id, $keyword);
+        // 如果用户被分配了 目录权限 ，则获取他在该项目下拥有权限的目录id
+        $cat_id = D("Member")->getCatId($item_id, $uid);
+        $pages = D("Page")->search($item_id, $cat_id, $keyword);
         if ($pages) {
             foreach ($pages as $key => $value) {
                 $page_content = htmlspecialchars_decode($value['page_content']);

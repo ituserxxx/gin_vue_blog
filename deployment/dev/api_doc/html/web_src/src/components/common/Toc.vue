@@ -14,9 +14,18 @@ export default {
         if ($ != undefined) {
           clearInterval(check_jQuery_is_load)
           that.tocMainScript()
+          if ($('.markdown-toc').length && $('#toc-pos').length) {
+            // 元素存在的处理逻辑
+            const elementA = $('.markdown-toc')
+            $('#toc-pos').append(elementA)
+            // elementA.remove()
+            $('#toc-pos').css('width', '160px')
+          } else {
+            $('#toc-pos').css('width', '0px')
+          }
         }
       } catch (e) {}
-    }, 200)
+    }, 500)
   },
   methods: {
     tocMainScript() {
@@ -28,7 +37,7 @@ export default {
           .attr('href')
           .substring(1)
         var top_at_window = $('[name="' + name + '"]').offset().top
-        var offset = -110
+        var offset = -130
         $('html, body').animate({ scrollTop: top_at_window + offset }, 300)
       })
       // 监听展开事件
@@ -46,7 +55,7 @@ export default {
             .substring(1)
           if (
             $('[name="' + name + '"]').offset().top - $(window).scrollTop() <
-            120
+            150
           ) {
             activeName = name
           } else {
@@ -81,17 +90,28 @@ export default {
 <style>
 .page_content_main .markdown-toc {
   position: fixed;
-  top: 230px;
+  top: 155px;
   margin-left: 820px;
   min-width: 32px;
   min-height: 32px;
   cursor: pointer;
   z-index: 1;
+  font-size: 13px;
 }
-.page_content_main .markdown-toc:before {
+#toc-pos .markdown-toc {
+  position: fixed;
+  top: 155px;
+  min-width: 32px;
+  min-height: 32px;
+  cursor: pointer;
+  z-index: 1;
+  font-size: 13px;
+}
+.page_content_main .markdown-toc:before,
+#toc-pos .markdown-toc:before {
   content: '\e63f';
   font-family: element-icons !important;
-  color: #909399;
+  color: #343a40;
   position: absolute;
   bottom: 0;
   right: 0;
@@ -107,13 +127,15 @@ export default {
   transition: 0.25s;
   display: none;
 }
-.page_content_main .markdown-toc.open-list:before {
-  border: 1px solid #40a9ff;
-  color: #40a9ff;
+.page_content_main .markdown-toc.open-list:before,
+#toc-pos .markdown-toc.open-list:before {
+  border: 1px solid #409eff;
+  color: #409eff;
   border-radius: 50%;
   display: none;
 }
-.page_content_main .markdown-toc > .markdown-toc-list {
+.page_content_main .markdown-toc > .markdown-toc-list,
+#toc-pos .markdown-toc > .markdown-toc-list {
   position: relative;
   z-index: 999;
   margin: 0;
@@ -122,9 +144,9 @@ export default {
   max-width: 230px;
   padding: 5px 0;
   background: #fff;
-  border: 1px solid #dcdfe6;
-  border-radius: 5px;
-  box-shadow: 0 5px 5px #f2f6fc;
+  border: 1px solid rgba(0, 0, 0, 0.05);
+  border-radius: 8px;
+  box-shadow: 0 0 2px #0000001a;
   max-height: calc(100vh - 350px);
   overflow-y: auto;
   transform: scale(0);
@@ -136,7 +158,8 @@ export default {
   transition: 0.25s ease 0s, margin-right 0s ease 0.25s,
     margin-bottom 0s ease 0.25s;
 }
-.page_content_main .markdown-toc.open-list .markdown-toc-list {
+.page_content_main .markdown-toc.open-list .markdown-toc-list,
+#toc-pos .markdown-toc.open-list .markdown-toc-list {
   margin-right: 0px;
   margin-bottom: 0px;
   transform: scale(1) translateY(-44px);
@@ -145,32 +168,37 @@ export default {
   transition: 0.5s cubic-bezier(0.4, 1.7, 0.6, 1), margin-right 0s,
     margin-bottom 0s;
 }
-.page_content_main .markdown-toc li {
+.page_content_main .markdown-toc li,
+#toc-pos .markdown-toc li {
   list-style: none !important;
 }
-.page_content_main .markdown-toc li a {
+.page_content_main .markdown-toc li a,
+#toc-pos .markdown-toc li a {
   display: block;
   padding: 3px 15px;
   font-size: 12px;
-  color: #606266;
+  color: #343a40;
   white-space: nowrap;
   text-overflow: ellipsis;
   overflow: hidden;
   transition: 0.15s;
 }
-.page_content_main .markdown-toc li a.current {
+.page_content_main .markdown-toc li a.current,
+#toc-pos .markdown-toc li a.current {
   background: #ecf5ff;
-  color: #40a9ff;
-  box-shadow: 2px 0px #40a9ff inset;
+  color: #409eff;
+  box-shadow: 2px 0px #409eff inset;
 }
-.page_content_main .markdown-toc li a:hover {
+.page_content_main .markdown-toc li a:hover,
+#toc-pos .markdown-toc li a.current {
   background: #d9ecff;
   text-decoration: none;
-  color: #40a9ff;
+  color: #409eff;
   transition: 0s;
 }
 
-.page_content_main .markdown-toc li ul {
+.page_content_main .markdown-toc li ul,
+#toc-pos .markdown-toc li a.current {
   padding-left: 15px;
 }
 </style>

@@ -1,12 +1,12 @@
 <!-- 附件 -->
 <template>
   <div class="header grey-bg">
-    <div class="logo float-left mt-4 ml-5  cursor-pointer">
+    <div class="logo float-left mt-6 ml-5  cursor-pointer">
       <div>
         <div class="inline-block align-middle">
           <router-link to="/item/index">
             <div class="icon-item">
-              <i class="el-icon-back"></i>
+              <i class="far fa-arrow-left"></i>
             </div>
           </router-link>
         </div>
@@ -36,7 +36,7 @@ export default {
 
 <style scoped>
 .header {
-  height: 90px;
+  height: 90px !important;
   border-bottom: 1px solid rgba(0, 0, 0, 0.05);
   position: fixed;
   top: 0;

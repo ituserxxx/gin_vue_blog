@@ -8,114 +8,142 @@
       ghostClass="sortable-chosen"
     >
       <div
-        class="item-list-one"
         v-loading="loading"
         v-for="item in itemList"
         :key="item.item_id"
         @click="toOneItem(item)"
+        class="item-list-one"
       >
-        <div class="left   float-left">
-          <i class="item-icon el-icon-document"></i>
-          {{ item.item_name }}
+        <div class="item-list-one-block">
+          <div class="left   float-left">
+            <i v-if="item.item_type == '2'" class="item-icon fas fa-file"></i>
+            <i
+              v-else-if="item.item_type == '4'"
+              class="item-icon fas fa-table"
+            ></i>
+            <i v-else class="item-icon fas fa-notes"></i>
+            {{ item.item_name }}
+          </div>
+          <div class="right show-more  float-right" @click.stop="() => {}">
+            <el-dropdown :show-timeout="0" trigger="hover">
+              <span class="el-dropdown-link">
+                <i class="item-icon-more fas fa-ellipsis"></i>
+              </span>
+              <el-dropdown-menu slot="dropdown">
+                <el-dropdown-item @click.native="toOneItem(item)">
+                  <i class="mr-2 fas fa-right-to-bracket"></i>
+                  {{ $t('open_item') }}
+                </el-dropdown-item>
+                <el-dropdown-item
+                  @click.native="
+                    opItemRow = item
+                    showShare = true
+                  "
+                >
+                  <i class="mr-2 fas fa-share-nodes"></i>
+                  {{ $t('share') }}
+                </el-dropdown-item>
+                <el-dropdown-item
+                  v-if="item.is_star <= 0"
+                  @click.native="clickStar(item)"
+                >
+                  <i class="mr-2 far fa-star"></i>
+                  {{ $t('star_item') }}
+                </el-dropdown-item>
+                <el-dropdown-item
+                  v-if="item.is_star > 0"
+                  @click.native="clickStar(item)"
+                >
+                  <i class="mr-2 fas fa-star"></i>
+                  {{ $t('unstar_item') }}
+                </el-dropdown-item>
+                <el-dropdown-item
+                  v-if="item.manage"
+                  divided
+                  @click.native="
+                    opItemRow = item
+                    showItemUpdate = true
+                  "
+                >
+                  <i class="mr-2 fas fa-edit"></i>
+                  {{ $t('update_base_info') }}
+                </el-dropdown-item>
+                <el-dropdown-item
+                  v-if="item.manage"
+                  @click.native="
+                    opItemRow = item
+                    showMember = true
+                  "
+                >
+                  <i class="mr-2 fal fa-users"></i>
+                  {{ $t('member_manage') }}
+                </el-dropdown-item>
+                <el-dropdown-item
+                  v-if="item.manage"
+                  @click.native="
+                    opItemRow = item
+                    showOpenApi = true
+                  "
+                >
+                  <i class="mr-2 fas fa-plug"></i>
+                  {{ $t('open_api') }}
+                </el-dropdown-item>
+                <el-dropdown-item
+                  v-if="item.manage"
+                  @click.native="
+                    opItemRow = item
+                    showRecycle = true
+                  "
+                >
+                  <i class="mr-2 fas fa-trash"></i>
+                  {{ $t('recycle') }}
+                </el-dropdown-item>
+                <el-dropdown-item
+                  v-if="item.manage"
+                  divided
+                  @click.native="
+                    opItemRow = item
+                    showAttorn = true
+                  "
+                >
+                  <i class="mr-2 fas fa-recycle"></i>
+                  {{ $t('attorn') }}
+                </el-dropdown-item>
+                <el-dropdown-item
+                  v-if="item.manage"
+                  @click.native="
+                    opItemRow = item
+                    showCopy = true
+                  "
+                >
+                  <i class="mr-2 fas fa-copy"></i>
+                  {{ $t('copy') }}
+                </el-dropdown-item>
+                <el-dropdown-item
+                  v-if="item.manage"
+                  @click.native="
+                    opItemRow = item
+                    showArchive = true
+                  "
+                >
+                  <i class="mr-2 far fa-box-archive"></i>
+                  {{ $t('archive') }}
+                </el-dropdown-item>
+                <el-dropdown-item
+                  v-if="item.manage"
+                  @click.native="
+                    opItemRow = item
+                    showDelete = true
+                  "
+                >
+                  <i class="mr-2 far fa-trash-can"></i>
+                  {{ $t('delete') }}
+                </el-dropdown-item>
+              </el-dropdown-menu>
+            </el-dropdown>
+          </div>
         </div>
-        <div class="right show-more  float-right" @click.stop="() => {}">
-          <el-dropdown :show-timeout="0" trigger="hover">
-            <span class="el-dropdown-link">
-              <i class="item-icon-more el-icon-more"></i>
-            </span>
-            <el-dropdown-menu slot="dropdown">
-              <el-dropdown-item @click.native="toOneItem(item)">
-                <i class="el-icon-caret-right mr-2"></i>{{ $t('open_item') }}
-              </el-dropdown-item>
-              <el-dropdown-item
-                @click.native="
-                  opItemRow = item
-                  showShare = true
-                "
-              >
-                <i class="el-icon-share mr-2"></i>{{ $t('share') }}
-              </el-dropdown-item>
-              <el-dropdown-item
-                v-if="item.is_star <= 0"
-                @click.native="clickStar(item)"
-              >
-                <i class="el-icon-star-off mr-2"></i>{{ $t('star_item') }}
-              </el-dropdown-item>
-              <el-dropdown-item
-                v-if="item.is_star > 0"
-                @click.native="clickStar(item)"
-              >
-                <i class="el-icon-star-on mr-2"></i>{{ $t('unstar_item') }}
-              </el-dropdown-item>
-              <el-dropdown-item
-                v-if="item.manage"
-                divided
-                @click.native="
-                  opItemRow = item
-                  showItemUpdate = true
-                "
-              >
-                <i class="el-icon-edit-outline mr-2"></i
-                >{{ $t('update_base_info') }}
-              </el-dropdown-item>
-              <el-dropdown-item
-                v-if="item.manage"
-                @click.native="
-                  opItemRow = item
-                  showMember = true
-                "
-              >
-                <i class="el-icon-s-flag mr-2"></i>{{ $t('member_manage') }}
-              </el-dropdown-item>
-              <el-dropdown-item
-                v-if="item.manage"
-                @click.native="
-                  opItemRow = item
-                  showOpenApi = true
-                "
-              >
-                <i class="el-icon-magic-stick mr-2"></i>{{ $t('open_api') }}
-              </el-dropdown-item>
-              <el-dropdown-item
-                v-if="item.manage"
-                @click.native="
-                  opItemRow = item
-                  showRecycle = true
-                "
-              >
-                <i class="el-icon-coffee mr-2"></i>{{ $t('recycle') }}
-              </el-dropdown-item>
-              <el-dropdown-item
-                v-if="item.manage"
-                divided
-                @click.native="
-                  opItemRow = item
-                  showAttorn = true
-                "
-              >
-                <i class="el-icon-refresh mr-2"></i>{{ $t('attorn') }}
-              </el-dropdown-item>
-              <el-dropdown-item
-                v-if="item.manage"
-                @click.native="
-                  opItemRow = item
-                  showArchive = true
-                "
-              >
-                <i class="el-icon-dish mr-2"></i>{{ $t('archive') }}
-              </el-dropdown-item>
-              <el-dropdown-item
-                v-if="item.manage"
-                @click.native="
-                  opItemRow = item
-                  showDelete = true
-                "
-              >
-                <i class="el-icon-delete mr-2"></i>{{ $t('delete') }}
-              </el-dropdown-item>
-            </el-dropdown-menu>
-          </el-dropdown>
-        </div>
+        <div class="item-list-one-block-bg"></div>
       </div>
     </draggable>
 
@@ -208,6 +236,19 @@
     >
     </Attorn>
 
+    <!-- 复制项目 -->
+    <Copy
+      :item_id="opItemRow.item_id"
+      v-if="showCopy"
+      :callback="
+        () => {
+          showCopy = false
+          getItemList()
+        }
+      "
+    >
+    </Copy>
+
     <!-- 删除项目 -->
     <Delete
       v-if="showDelete"
@@ -232,7 +273,9 @@ import Recycle from '@/components/item/setting/Recycle'
 import Archive from '@/components/item/setting/Archive'
 import Attorn from '@/components/item/setting/Attorn'
 import Delete from '@/components/item/setting/Delete'
-import Share from '@/components/item/home/share'
+import Share from '@/components/item/home/Share'
+import Copy from '@/components/item/add/Copy'
+
 export default {
   name: 'ItemList',
   components: {
@@ -244,7 +287,8 @@ export default {
     Archive,
     Attorn,
     Delete,
-    Share
+    Share,
+    Copy
   },
   props: {
     callback: {
@@ -279,7 +323,8 @@ export default {
       showRecycle: false,
       showArchive: false,
       showAttorn: false,
-      showDelete: false
+      showDelete: false,
+      showCopy: false
     }
   },
 
@@ -307,6 +352,7 @@ export default {
             // 如果当前用户正在查看星标项目选项卡，那么，取消星标后，应该重刷新项目列表，以便消息该非星标项目
             this.getItemList()
           }
+          this.$message(this.$t('op_success'))
         })
       } else {
         this.request('/api/item/star', {
@@ -318,6 +364,7 @@ export default {
               this.itemList[index]['is_star'] = 1
             }
           }
+          this.$message(this.$t('op_success'))
         })
       }
     },
@@ -364,15 +411,32 @@ a {
   color: #343a40;
 }
 .item-list-one {
+  margin-top: 10px;
+  margin-bottom: 10px;
+  cursor: pointer;
+}
+
+.item-list-one-block {
   width: 600px;
   height: 60px;
   background-color: white;
-  margin-top: 10px;
-  margin-bottom: 10px;
   color: #343a40;
   border-radius: 12px;
   box-shadow: 0 0 2px #0000001a;
-  cursor: pointer;
+  float: left;
+  opacity: 1;
+  position: relative;
+  bottom: 5px;
+  right: 5px;
+}
+
+.item-list-one-block-bg {
+  width: 600px;
+  height: 60px;
+  background-color: white;
+  color: #343a40;
+  border-radius: 12px;
+  box-shadow: 0 0 2px #0000001a;
 }
 .item-list-one .left {
   position: relative;
@@ -397,8 +461,8 @@ a {
 
 .item-list-one .item-icon {
   margin-right: 10px;
-  color: rgba(0, 0, 0, 0.1);
-  font-size: 18px;
+  color: rgba(0, 0, 0, 0.3);
+  font-size: 16px;
 }
 
 .item-list-one .item-icon-more {

@@ -5,6 +5,7 @@
       :title="$t('templ_list')"
       :onCancel="callback"
       :showCancel="false"
+      :showOk="false"
       :onOK="callback"
     >
       <el-tabs value="myList" type="card">
@@ -88,6 +89,7 @@
     >
       <el-form>
         <el-select
+          filterable
           multiple
           v-model="shareItemId"
           :placeholder="$t('please_choose')"

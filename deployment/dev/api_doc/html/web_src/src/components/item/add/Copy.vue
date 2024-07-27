@@ -16,6 +16,7 @@
         >
           <el-form-item label class="text-left">
             <el-select
+              filterable
               style="width:100%;"
               v-model="copy_item_id"
               :placeholder="$t('please_choose')"
@@ -76,6 +77,11 @@ export default {
       type: Function,
       required: false,
       default: () => {}
+    },
+    item_id: {
+      type: Number,
+      required: false,
+      default: '0'
     }
   },
   data() {
@@ -125,6 +131,9 @@ export default {
   },
 
   mounted() {
+    if (this.item_id > 0) {
+      this.copy_item_id = this.item_id
+    }
     this.getItemList()
   }
 }

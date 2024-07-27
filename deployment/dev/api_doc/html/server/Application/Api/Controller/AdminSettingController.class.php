@@ -22,6 +22,8 @@ class AdminSettingController extends BaseController
         $beian = I("beian");
         $site_url = I("site_url");
         $open_api_key = I("open_api_key");
+        $open_api_host = I("open_api_host");
+        $ai_model_name = I("ai_model_name");
         D("Options")->set("history_version_count", $history_version_count);
         D("Options")->set("register_open", $register_open);
         D("Options")->set("home_page", $home_page);
@@ -29,6 +31,8 @@ class AdminSettingController extends BaseController
         D("Options")->set("beian", $beian);
         D("Options")->set("site_url", $site_url);
         D("Options")->set("open_api_key", $open_api_key);
+        D("Options")->set("open_api_host", $open_api_host);
+        D("Options")->set("ai_model_name", $ai_model_name);
         D("Options")->set("show_watermark", $show_watermark);
 
         if ($oss_open) {
@@ -55,6 +59,8 @@ class AdminSettingController extends BaseController
         $beian = D("Options")->get("beian");
         $site_url = D("Options")->get("site_url");
         $open_api_key = D("Options")->get("open_api_key");
+        $open_api_host = D("Options")->get("open_api_host");
+        $ai_model_name = D("Options")->get("ai_model_name");
         $oss_setting = json_decode($oss_setting, 1);
 
         //如果强等于false，那就是尚未有数据。关闭注册应该是有数据且数据为字符串0
@@ -72,6 +78,8 @@ class AdminSettingController extends BaseController
                 "site_url" => $site_url,
                 "oss_setting" => $oss_setting,
                 "open_api_key" => $open_api_key,
+                "open_api_host" => $open_api_host,
+                "ai_model_name" => $ai_model_name,
             );
             $this->sendResult($array);
         }

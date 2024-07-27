@@ -8,6 +8,7 @@
       :btn1Medthod="addTeamItem"
       :onCancel="callback"
       :showCancel="false"
+      :showOk="false"
       :onOK="callback"
       width="40%"
     >
@@ -69,6 +70,7 @@
       <el-form>
         <el-select
           multiple
+          filterable
           v-model="MyForm.item_id"
           :placeholder="$t('please_choose')"
         >

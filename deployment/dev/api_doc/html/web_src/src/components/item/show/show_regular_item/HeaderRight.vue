@@ -1,223 +1,152 @@
 <!-- 附件 -->
 <template>
-  <div class="header-right float-right  mt-5 mr-5">
+  <div class="header-right float-right  mt-6 mr-5">
     <div>
-      <div
-        v-if="item_info.item_edit"
-        class="icon-item"
-        @click="
-          edit_page_id = 0
-          showPageEdit = true
-        "
+      <el-tooltip
+        v-if="item_info.item_edit && page_id"
+        effect="dark"
+        :content="$t('edit_page')"
       >
-        <el-tooltip effect="dark" :content="$t('new_page')" placement="top">
-          <i class="el-icon-plus"></i>
-        </el-tooltip>
-      </div>
-      <div
-        v-if="item_info.item_edit"
-        class="icon-item"
-        @click="
-          edit_page_id = page_id
-          showPageEdit = true
-        "
-      >
-        <el-tooltip effect="dark" :content="$t('edit_page')">
-          <i class="el-icon-edit-outline"></i>
-        </el-tooltip>
-      </div>
-      <div
+        <div
+          class="icon-item"
+          @click="
+            edit_page_id = page_id
+            showPageEdit = true
+          "
+        >
+          <i class="fas fa-edit"></i>
+        </div>
+      </el-tooltip>
+      <el-tooltip
         v-if="item_info.item_type == 3 && item_info.is_login"
-        class="icon-item"
+        effect="dark"
+        content="runapi项目请在runapi客户端编辑"
       >
-        <el-tooltip effect="dark" content="runapi项目请在runapi客户端编辑">
-          <i class=" cursor-not-allowed el-icon-edit-outline"></i>
-        </el-tooltip>
-      </div>
-      <div
-        v-if="item_info.item_edit"
-        class="icon-item"
-        @click="showCatalog = true"
-      >
-        <el-tooltip effect="dark" :content="$t('new_catalog')" placement="top">
-          <i class="el-icon-folder-add"></i>
-        </el-tooltip>
-      </div>
-      <div class="icon-item" @click="showShare = true">
-        <el-tooltip effect="dark" :content="$t('share')" placement="top">
-          <i class="el-icon-share"></i>
-        </el-tooltip>
-      </div>
-      <div
-        v-if="
-          item_info.item_manage ||
-            (item_info.item_type == 3 && item_info.is_login)
-        "
-        class="icon-item"
-        @click="showItemExport = true"
-      >
-        <el-tooltip effect="dark" :content="$t('export')" placement="top">
-          <i class="el-icon-download"></i>
-        </el-tooltip>
-      </div>
-      <div
-        v-if="item_info.item_manage"
-        class="icon-item"
-        @click="showItemImport = true"
-      >
-        <el-tooltip effect="dark" :content="$t('import')" placement="top">
-          <i class="el-icon-upload2"></i>
-        </el-tooltip>
-      </div>
-      <div
-        v-if="item_info.item_manage"
-        class="icon-item"
-        @click="showMember = true"
-      >
-        <el-tooltip
-          effect="dark"
-          :content="$t('member_manage')"
-          placement="top"
-        >
-          <i class="el-icon-wind-power"></i>
-        </el-tooltip>
-      </div>
-      <div
+        <div class="icon-item cursor-not-allowed">
+          <i class="cursor-not-allowed far fa-edit"></i>
+        </div>
+      </el-tooltip>
+      <el-tooltip effect="dark" :content="$t('share')" placement="top">
+        <div class="icon-item" @click="showShare = true">
+          <i class="far fa-share-nodes"></i>
+        </div>
+      </el-tooltip>
+      <el-tooltip
         v-if="item_info.is_login"
-        class="icon-item"
-        @click="
-          () => {
-            $store.dispatch('changeNewMsg', 0)
-            showMessage = true
-          }
-        "
+        effect="dark"
+        :content="$t('my_notice')"
+        placement="top"
       >
-        <el-tooltip effect="dark" :content="$t('my_notice')" placement="top">
+        <div
+          class="icon-item"
+          @click="
+            () => {
+              $store.dispatch('changeNewMsg', 0)
+              showMessage = true
+            }
+          "
+        >
           <el-badge :value="$store.state.new_msg ? 'New' : ''">
-            <i class="el-icon-bell"></i
-          ></el-badge>
-        </el-tooltip>
-      </div>
-      <div
-        v-if="item_info.is_login"
-        class="icon-item"
-        @click="showUserSetting = true"
-      >
-        <el-tooltip effect="dark" :content="$t('user_center')" placement="top">
-          <i class="el-icon-user"></i>
-        </el-tooltip>
-      </div>
-      <div
-        v-if="!item_info.is_login"
-        class="icon-item"
-        @click="
-          () => {
-            $router.push({
-              path: '/user/login'
-            })
-          }
-        "
-      >
-        <el-tooltip effect="dark" :content="$t('login')" placement="top">
-          <i class="el-icon-user"></i>
-        </el-tooltip>
-      </div>
-      <div
-        v-if="!item_info.is_login"
-        class="icon-item"
-        @click="toOutLink('https://www.showdoc.com.cn/help')"
-      >
-        <el-tooltip
-          effect="dark"
-          :content="$t('about_showdoc')"
-          placement="top"
-        >
-          <i class="el-icon-help"></i>
-        </el-tooltip>
-      </div>
+            <i class="far fa-message"></i>
+          </el-badge>
+        </div>
+      </el-tooltip>
 
-      <div class="inline" v-if="item_info.item_edit">
+      <el-tooltip
+        v-if="item_info.is_login"
+        effect="dark"
+        :content="$t('user_center')"
+        placement="top"
+      >
+        <div class="icon-item" @click="showUserSetting = true">
+          <i class="far fa-user"></i>
+        </div>
+      </el-tooltip>
+
+      <el-tooltip
+        v-if="!item_info.is_login"
+        effect="dark"
+        :content="$t('login')"
+        placement="top"
+      >
+        <div
+          class="icon-item"
+          @click="
+            () => {
+              $router.push({
+                path: '/user/login'
+              })
+            }
+          "
+        >
+          <i class="far fa-user"></i>
+        </div>
+      </el-tooltip>
+      <el-tooltip
+        v-if="!item_info.is_login"
+        effect="dark"
+        :content="$t('about_showdoc')"
+        placement="top"
+      >
+        <div
+          class="icon-item"
+          @click="toOutLink('https://www.showdoc.com.cn/help')"
+        >
+          <i class="far fa-circle-info"></i>
+        </div>
+      </el-tooltip>
+
+      <div class="inline" v-if="item_info.item_manage">
         <el-dropdown :show-timeout="0" trigger="hover">
           <div class="icon-item">
             <span class="el-dropdown-link">
-              <i class="el-icon-more"></i>
+              <i class="far fa-ellipsis"></i>
             </span>
           </div>
 
           <el-dropdown-menu slot="dropdown">
-            <el-dropdown-item
-              @click.native="
-                edit_page_id = 0
-                copy_page_id = page_id
-                showPageEdit = true
-              "
-            >
-              <i class="el-icon-document"></i>
-              {{ $t('copy_page') }}
+            <el-dropdown-item @click.native="showItemImport = true">
+              <i
+                style="transform: rotate(180deg)"
+                class="mr-2 far fa-arrow-down-to-bracket"
+              ></i>
+              {{ $t('import') }}
             </el-dropdown-item>
-            <el-dropdown-item @click.native="showHistoryVersiong = true">
-              <i class="el-icon-goods"></i>
-              {{ $t('page_history_version') }}
+            <el-dropdown-item @click.native="showItemExport = true">
+              <i class="mr-2 far fa-arrow-down-to-bracket"></i>
+              {{ $t('export') }}
             </el-dropdown-item>
-
-            <el-dropdown-item @click.native="showSortPage = true">
-              <i class="el-icon-sort"></i>
-              {{ $t('sort_page') }}
+            <el-dropdown-item @click.native="showMember = true">
+              <i class="mr-2 far fa-users"></i>
+              {{ $t('member_manage') }}
             </el-dropdown-item>
-            <el-dropdown-item @click.native="showPageInfo">
-              <i class="el-icon-info"></i>
-              {{ $t('page_info') }}
-            </el-dropdown-item>
-            <el-dropdown-item @click.native="deletePage">
-              <i class="el-icon-delete"></i>
-              {{ $t('delete_page') }}
-            </el-dropdown-item>
-            <el-dropdown-item
-              v-if="item_info.item_manage"
-              @click.native="showRecycle = true"
-            >
-              <i class="el-icon-coffee"></i>
+            <el-dropdown-item @click.native="showRecycle = true">
+              <i class="mr-2 far fa-trash"></i>
               {{ $t('recycle') }}
             </el-dropdown-item>
-            <el-dropdown-item
-              v-if="item_info.item_manage"
-              divided
-              @click.native="showItemUpdate = true"
-            >
-              <i class="el-icon-edit-outline"></i>
+            <el-dropdown-item @click.native="showItemUpdate = true">
+              <i class="mr-2 far fa-edit"></i>
               {{ $t('update_item_base_info') }}
             </el-dropdown-item>
             <el-dropdown-item @click.native="showChangeLog = true">
-              <i class="el-icon-toilet-paper"></i>
+              <i class="mr-2 far fa-rectangle-vertical-history"></i>
               {{ $t('item_change_log') }}
             </el-dropdown-item>
 
-            <el-dropdown-item
-              v-if="item_info.item_manage"
-              @click.native="showAttorn = true"
-            >
-              <i class="el-icon-refresh"></i>
+            <el-dropdown-item @click.native="showAttorn = true">
+              <i class="mr-2 fas fa-recycle"></i>
               {{ $t('attorn_item') }}
             </el-dropdown-item>
-            <el-dropdown-item
-              v-if="item_info.item_manage"
-              @click.native="showArchive = true"
-            >
-              <i class="el-icon-dish"></i>
+            <el-dropdown-item @click.native="showArchive = true">
+              <i class="mr-2 far fa-box-archive"></i>
               {{ $t('archive_item') }}
             </el-dropdown-item>
-            <el-dropdown-item
-              v-if="item_info.item_manage"
-              @click.native="showDelete = true"
-            >
-              <i class="el-icon-delete"></i>
+            <el-dropdown-item @click.native="showDelete = true">
+              <i class="mr-2 fae fa-trash-can"></i>
               {{ $t('delete_item') }}
             </el-dropdown-item>
-            <el-dropdown-item
-              v-if="item_info.item_manage"
-              @click.native="showOpenApi = true"
-            >
-              <i class="el-icon-magic-stick"></i>
+            <el-dropdown-item @click.native="showOpenApi = true">
+              <i class="mr-2 fas fa-terminal"></i>
               {{ $t('open_api') }}
             </el-dropdown-item>
           </el-dropdown-menu>
@@ -506,29 +435,6 @@ export default {
   },
   computed: {},
   methods: {
-    showPageInfo() {
-      var html =
-        '本页面由 ' +
-        this.page_info.author_username +
-        ' 于 ' +
-        this.page_info.addtime +
-        ' 更新'
-      this.$alert(html)
-    },
-    deletePage() {
-      var page_id = this.page_id > 0 ? this.page_id : 0
-      this.$confirm(this.$t('comfirm_delete'), ' ', {
-        confirmButtonText: this.$t('confirm'),
-        cancelButtonText: this.$t('cancel'),
-        type: 'warning'
-      }).then(() => {
-        this.request('/api/page/delete', {
-          page_id: page_id
-        }).then(data => {
-          window.location.reload()
-        })
-      })
-    },
     goback() {
       // 为了防止对话框遮罩来不及关闭，延迟0.5秒
       setTimeout(() => {
@@ -551,7 +457,6 @@ export default {
   background-color: white;
   width: 40px;
   height: 40px;
-  font-size: 16px;
   justify-content: center; /*水平居中*/
   align-items: center; /*垂直居中*/
   display: inline-flex;

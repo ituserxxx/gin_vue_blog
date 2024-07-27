@@ -46,7 +46,6 @@ function run_mysql_cn() {
   --network=$network_name \
   --restart=on-failure  \
   -v $dev_path/mysql/data:/var/lib/mysql \
-  -v $dev_path/mysql/my.cnf:/etc/my.cnf \
   -v $dev_path/mysql/init:/docker-entrypoint-initdb.d \
   -e TZ=Asia/Shanghai \
   -e LANG=C.UTF-8 \
@@ -140,11 +139,11 @@ function del_all_container() {
   echo "---container and image  [rm all succ]---"
 }
 function run_cn() {
-  run_api_doc_cn
+  # run_api_doc_cn
   run_mysql_cn
-  run_mysql_admin_cn
-  run_nginx
-  run_go_api
+  # run_mysql_admin_cn
+  # run_nginx
+  # run_go_api
 }
 function help() {
     echo "params is required, use some ....

@@ -151,16 +151,8 @@ class CatalogModel extends BaseModel
 		}
 		$item_id = $catData[0]['item_id'];
 		$cat_id = 0;
-		//首先看是否被添加为项目成员
-		$itemMember = D("ItemMember")->where("uid = '%d' and item_id = '%d' ", array($uid, $item_id))->find();
-		if ($itemMember && $itemMember['cat_id'] > 0) {
-			$cat_id = $itemMember['cat_id'];
-		}
-		//再看是否添加为团队-项目成员
-		$teamItemMember = D("TeamItemMember")->where("member_uid = '%d' and item_id = '%d' ", array($uid, $item_id))->find();
-		if ($teamItemMember && $teamItemMember['cat_id'] > 0) {
-			$cat_id = $teamItemMember['cat_id'];
-		}
+		// 如果用户被分配了 目录权限 ，则获取他在该项目下拥有权限的目录id
+		$cat_id = D("Member")->getCatId($item_id, $uid);
 		//开始根据cat_id过滤
 		if ($cat_id > 0) {
 			foreach ($catData as $key => $value) {
@@ -269,7 +261,7 @@ class CatalogModel extends BaseModel
 	// 用路径的形式（比如'二级目录/三级目录/四级目录'）来保存目录信息并返回最后一层目录的id
 	public function saveCatPath($catPath, $item_id)
 	{
-		if (!$catPath) return false;
+		if (!$catPath) return 0;
 		// $catPath是以斜杠 / 开头，且$catPath长度大于1（即不只是 / ）, 则把第一个 / 去掉
 		if (substr($catPath, 0, 1) == '/' && strlen($catPath) > 1) {
 			$catPath = substr($catPath, 1); // 去掉第一个字符

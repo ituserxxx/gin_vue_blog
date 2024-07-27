@@ -4,7 +4,6 @@
       class="sdialog"
       width="98%"
       :visible.sync="dialogVisible"
-      @close="goback"
       :show-close="false"
       top="2vh"
       :append-to-body="true"
@@ -77,84 +76,91 @@
       <div @keydown.ctrl.83.prevent="save" @keydown.meta.83.prevent="save">
         <el-row class="fun-btn-group">
           <el-dropdown type class="" size="medium" trigger="hover">
-            <el-button icon="el-icon-s-tools">
-              {{ $t('doc_tool')
-              }}<i class="el-icon-arrow-down el-icon--right"></i>
+            <el-button>
+              <i class="mr-1 fas fa-gear"></i>
+              {{ $t('doc_tool') }}
+              <i class="el-icon-arrow-down el-icon--right"></i>
             </el-button>
             <el-dropdown-menu slot="dropdown">
-              <el-dropdown-item @click.native="showHistoryVersionDialog = true"
-                ><i class="el-icon-lock"> </i
-                >{{ $t('history_version') }}</el-dropdown-item
+              <el-dropdown-item @click.native="showHistoryVersionDialog = true">
+                <i class="mr-1 far fa-rectangle-history"></i>
+                {{ $t('history_version') }}</el-dropdown-item
               >
               <el-dropdown-item @click.native="showAttachment">
-                <el-badge :value="attachment_count"
-                  ><i class="el-icon-upload"> </i
-                  >{{ $t('attachment') }}</el-badge
+                <el-badge :value="attachment_count">
+                  <i class="mr-1 far fa-cloud-arrow-up"></i>
+                  {{ $t('attachment') }}</el-badge
                 ></el-dropdown-item
               >
-              <el-dropdown-item @click.native="showSortPage"
-                ><i class="el-icon-sort"> </i
-                >{{ $t('sort_pages') }}</el-dropdown-item
+              <el-dropdown-item @click.native="showSortPage">
+                <i class="mr-1 far fa-sort"></i>
+                {{ $t('sort_pages') }}</el-dropdown-item
               >
 
-              <el-dropdown-item @click.native="showJsonToTableDialog = true"
-                ><i class="el-icon-film"> </i
-                >{{ $t('json_to_table') }}</el-dropdown-item
+              <el-dropdown-item @click.native="showJsonToTableDialog = true">
+                <i class="mr-1 far fa-table"></i>
+                {{ $t('json_to_table') }}</el-dropdown-item
               >
-              <el-dropdown-item @click.native="showJsonBeautifyDialog = true"
-                ><i class="el-icon-scissors"> </i
-                >{{ $t('beautify_json') }}</el-dropdown-item
+              <el-dropdown-item @click.native="showJsonBeautifyDialog = true">
+                <i class="mr-1 far fa-goal-net"></i>
+                {{ $t('beautify_json') }}</el-dropdown-item
               >
-              <el-dropdown-item @click.native="showPasteTableDialog = true"
-                ><i class="el-icon-attract"> </i
-                >{{ $t('paste_insert_table') }}</el-dropdown-item
+              <el-dropdown-item @click.native="showPasteTableDialog = true">
+                <i class="mr-1 far fa-table"></i>
+                {{ $t('paste_insert_table') }}</el-dropdown-item
               >
               <el-dropdown-item
                 @click.native="showSqlToMarkdownTableDialog = true"
-                ><i class="el-icon-takeaway-box"> </i
-                >{{ $t('sql_to_markdown_table') }}</el-dropdown-item
+              >
+                <i class="mr-1 far fa-table"></i>
+                {{ $t('sql_to_markdown_table') }}</el-dropdown-item
               >
               <el-dropdown-item
                 v-if="$lang == 'zh-cn'"
                 @click.native="showMock = true"
-                ><i class="el-icon-video-camera"> </i>Mock
+              >
+                <i class="mr-1 far fa-database"></i>
+                Mock
               </el-dropdown-item>
               <el-dropdown-item
                 v-if="$lang == 'zh-cn'"
                 @click.native="showRunApi"
-                ><i class="el-icon-video-camera"> </i
-                >{{ $t('http_test_api') }}</el-dropdown-item
+              >
+                <i class="mr-1 far fa-link"></i>
+                {{ $t('http_test_api') }}</el-dropdown-item
               >
             </el-dropdown-menu>
           </el-dropdown>
 
           <el-button
-            icon="el-icon-takeaway-box"
             v-if="$lang == 'zh-cn' && showAIBtn"
             style="padding-top: 12px;padding-bottom: 12px;"
             @click.native="showAI = true"
             size="medium"
             @click="createContent"
-            >{{ $t('ai_assistant') }}</el-button
+          >
+            <i class="mr-1 far fa-robot"></i>
+            {{ $t('ai_assistant') }}</el-button
           >
 
           <el-dropdown type class="" size="medium" trigger="hover">
-            <el-button icon="el-icon-document">
+            <el-button>
+              <i class="mr-1 fas fa-files"></i>
               {{ $t('add_from_template')
               }}<i class="el-icon-arrow-down el-icon--right"></i>
             </el-button>
             <el-dropdown-menu slot="dropdown">
-              <el-dropdown-item @click.native="insertApiTemplate"
-                ><i class="el-icon-chicken"> </i
-                >{{ $t('insert_apidoc_template') }}</el-dropdown-item
+              <el-dropdown-item @click.native="insertApiTemplate">
+                <i class="mr-1 far fa-plug"></i>
+                {{ $t('insert_apidoc_template') }}</el-dropdown-item
               >
-              <el-dropdown-item @click.native="insertDatabaseTemplate"
-                ><i class="el-icon-sugar"> </i
-                >{{ $t('insert_database_doc_template') }}</el-dropdown-item
+              <el-dropdown-item @click.native="insertDatabaseTemplate">
+                <i class="mr-1 far fa-database"></i>
+                {{ $t('insert_database_doc_template') }}</el-dropdown-item
               >
-              <el-dropdown-item @click.native="showTemplateDialog = true"
-                ><i class="el-icon-document-copy"> </i
-                >{{ $t('more_templ') }}</el-dropdown-item
+              <el-dropdown-item @click.native="showTemplateDialog = true">
+                <i class="mr-1 far fa-files"></i>
+                {{ $t('more_templ') }}</el-dropdown-item
               >
             </el-dropdown-menu>
           </el-dropdown>
@@ -640,10 +646,17 @@ export default {
     },
     goback() {
       var url = '/' + this.item_id + '/' + this.page_id
-      this.$router.push({
+      if(this.page_id){
+        this.callback()
+      }else{
+        this.$router.push({
         path: url
-      })
-      this.callback()
+        }).then(()=>{
+          this.callback()
+        })
+      }
+
+      
     },
     // 另存为模板
     saveToTemplate() {

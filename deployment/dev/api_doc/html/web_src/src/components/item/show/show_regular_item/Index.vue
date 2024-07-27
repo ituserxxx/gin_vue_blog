@@ -1,6 +1,6 @@
 <template>
-  <div class="hello" v-if="showComp">
-    <Header id="header" :item_info="item_info">
+  <div :class="device" v-if="showComp">
+    <Header v-if="showPCHeader"  id="header" :item_info="item_info">
       <HeaderRight
         :page_id="page_id"
         :item_info="item_info"
@@ -9,7 +9,14 @@
       ></HeaderRight>
     </Header>
 
-    <div class="doc-container" id="doc-container">
+    <MobileHeader
+      :item_info="item_info"
+      :searchItem="searchItem"
+      :getPageContent="getPageContent"
+      v-if="showMobileHeader"
+    ></MobileHeader>
+
+    <div class="doc-container " id="doc-container">
       <div id="left-side">
         <LeftMenu
           ref="leftMenu"
@@ -17,7 +24,7 @@
           :keyword="keyword"
           :item_info="item_info"
           :searchItem="searchItem"
-          v-if="item_info"
+          v-if="item_info && !showMobileHeader"
         ></LeftMenu>
 
         <LeftMenuBottomBar
@@ -25,11 +32,12 @@
           :page_info="page_info"
           :searchItem="searchItem"
           :page_id="page_id"
+          :item_info="item_info"
           v-if="item_info"
         ></LeftMenuBottomBar>
       </div>
 
-      <div id="right-side">
+      <div id="content-side">
         <div id="p-content">
           <div class="doc-title-box" id="doc-title-box">
             <span class="v3-font-size-lg font-bold " id="doc-title">{{
@@ -59,21 +67,22 @@
                 :keyword="keyword"
               ></Editormd>
             </div>
-            <div v-if="emptyItem" class="empty-tips">
+            <div v-if="emptyItem && $lang == 'zh-cn'" class="empty-tips">
               <div class="icon">
                 <i class="el-icon-warning"></i>
               </div>
               <div class="text">
                 <p>
-                  当前项目是空的，你可以点击右上方的 + 以手动添加页面。
+                  当前项目是空的，你可以点击左下方的 + 以手动添加页面。
                 </p>
 
                 <div>
                   除了手动添加外，你还可以通过以下三种方式自动化生成文档：
                   <p class="links">
-                    <a href="https://www.showdoc.com.cn/runapi" target="_blank"
-                      >使用runapi工具自动生成（推荐）</a
-                    ><br />
+                    <i class="el-icon-star-on v3-color-yellow"></i>
+                    <a href="https://www.showdoc.com.cn/runapi" target="_blank">
+                      使用runapi工具自动生成（推荐）</a
+                    ><i class="el-icon-star-on v3-color-yellow"></i><br />
                     <a
                       href="https://www.showdoc.com.cn/page/7416564025093"
                       target="_blank"
@@ -92,9 +101,13 @@
           </div>
         </div>
       </div>
+
+      <div id="right-side">
+        <div id="toc-pos"></div>
+      </div>
     </div>
 
-    <el-backtop></el-backtop>
+    <el-backtop right="40" bottom="40"></el-backtop>
     <Toc v-if="page_id && showToc"></Toc>
 
     <!-- 附件列表 -->
@@ -120,6 +133,7 @@ import AttachmentList from '@/components/page/edit/AttachmentList'
 import { rederPageContent } from '@/models/page'
 import HeaderRight from './HeaderRight'
 import Header from '../Header'
+import MobileHeader from '../MobileHeader'
 import LeftMenuBottomBar from './LeftMenuBottomBar'
 export default {
   props: {
@@ -142,7 +156,10 @@ export default {
       showToc: true,
       showComp: true,
       emptyItem: false,
-      showAttachmentListDialog: false
+      showAttachmentListDialog: false,
+      showMobileHeader: false,
+      showPCHeader: true,
+      device: 'pc'
     }
   },
   components: {
@@ -152,7 +169,8 @@ export default {
     AttachmentList,
     Header,
     HeaderRight,
-    LeftMenuBottomBar
+    LeftMenuBottomBar,
+    MobileHeader
   },
   methods: {
     // 获取页面内容
@@ -194,46 +212,37 @@ export default {
       let childRef = this.$refs.leftMenu // 获取子组件
       childRef.hideMenu()
       var doc_container = document.getElementById('doc-container')
-      doc_container.style.padding = '5px'
-      doc_container.style.width = 'calc( 100vw - 10px )'
-      doc_container.style.minWidth = 'calc( 100vw - 10px )'
-      doc_container.style.maxWidth = 'calc( 100vw - 10px )'
+      doc_container.style.padding = '0px'
+      doc_container.style.width = 'calc( 100vw - 1px )'
+      doc_container.style.minWidth = 'calc( 100vw - 1px )'
+      doc_container.style.maxWidth = 'calc( 100vw - 1px )'
       doc_container.style.margin = '0px'
-      var header = document.getElementById('header')
-      header.style.display = 'none'
 
-      var rightSide = document.getElementById('right-side')
+      this.showPCHeader = false
+      this.showMobileHeader = true
+      this.device = 'mobile'
+
+      var rightSide = document.getElementById('content-side')
       rightSide.style.width = 'calc (100% -1px)'
       rightSide.style.minWidth = 'calc( 100% - 1px )'
       rightSide.style.maxWidth = 'calc( 100% - 1px )'
+      rightSide.style.minHeight = 'calc(100vh - 60px + 5px )'
       rightSide.style.marginLeft = '0px'
+      rightSide.style.borderRadius = '0px'
       var docTitle = document.getElementById('doc-title-box')
       docTitle.style.marginTop = '0px'
       this.showToc = false
       var leftMenuBottomBar = document.getElementById('left-menu-bottom-bar')
-      leftMenuBottomBar.style.display = 'none'
-    },
-    // 根据屏幕宽度进行响应。应对小屏幕pc设备(如笔记本)的访问
-    adaptToSmallpc() {
-      var doc_container = document.getElementById('doc-container')
-      doc_container.style.width = 'calc( 95% - 300px )'
-      doc_container.style.marginLeft = '300px'
-      doc_container.style.padding = '20px'
-      var header = document.getElementById('header')
-      header.style.height = '20px'
-      var docTitle = document.getElementById('doc-title-box')
-      docTitle.style.marginTop = '30px'
+      if (leftMenuBottomBar) {
+        leftMenuBottomBar.style.display = 'none'
+      }
     },
     // 响应式
     adaptScreen() {
       this.$nextTick(() => {
-        // 根据屏幕宽度进行响应(应对移动设备的访问)
-        if (this.isMobile() || window.innerWidth < 1300) {
-          if (window.innerWidth < 1300 && window.innerWidth > 1100) {
-            this.adaptToSmallpc()
-          } else {
-            this.adaptToMobile()
-          }
+        // 适应移动端
+        if (this.isMobile()) {
+          this.adaptToMobile()
         }
       })
     },
@@ -248,9 +257,13 @@ export default {
         this.$nextTick(() => {
           this.showComp = true
           this.showToc = true
+          this.showPCHeader = true
+          this.showMobileHeader = false
+          this.device = 'pc'
         })
       } else {
         this.adaptToMobile()
+        this.showMobileHeader = false
         // 切换变量让它重新加载、渲染子组件
         var page_id = this.page_id
         this.page_id = 0
@@ -261,6 +274,7 @@ export default {
           }, 200)
         })
         $('#left-side').hide()
+        $('#right-side').hide()
         $('#left-menu-bottom-bar').hide()
       }
       this.fullPage = !this.fullPage
@@ -308,7 +322,7 @@ a {
 
 #full-page {
   float: right;
-  font-size: 25px;
+  font-size: 18px;
   margin-right: 20px;
   cursor: pointer;
   color: #ccc;
@@ -321,33 +335,44 @@ a {
 }
 
 .doc-container {
-  position: static;
   margin-bottom: 20px;
   min-height: 750px;
   margin-left: auto;
   margin-right: auto;
   margin-top: 110px;
-  max-width: 1150px;
-  min-width: 655px;
+  max-width: 1500px;
+  min-width: 855px;
+  display: flex;
+  justify-content: center;
 }
 
 #left-side {
-  position: absolute;
+  width: 300px;
+  background-color: #f9f9f9;
 }
 
-#right-side {
-  margin-left: 320px;
+#content-side {
   background-color: #fff;
   box-shadow: 0 0 4px #0000001a;
   border-bottom: 1px solid rgba(0, 0, 0, 0.05);
-  min-width: 355px;
+  min-width: 830px;
   max-width: 850px;
   border-radius: 8px;
+  margin-left: 10px;
+  margin-right: 10px;
 }
 
-#doc-body {
-  width: calc(100% - 20px);
-  margin-left: 20px;
+#right-side {
+}
+
+.pc #doc-body {
+  width: calc(100% - 10px);
+  margin-left: 10px;
+}
+
+.mobile #doc-body {
+  width: 100%;
+  margin-left: 0px;
 }
 
 .doc-title-box {
@@ -377,31 +402,46 @@ pre ol {
 .editormd-html-preview,
 .editormd-preview-container {
   padding: 0px;
-  font-size: 13px;
+  font-size: 14px;
 }
 
 .empty-tips {
   margin: 5% auto;
   width: 400px;
   text-align: center;
-  color: #000;
   min-height: 50vh;
-  opacity: 0.3;
+  opacity: 0.5;
 }
 
 .empty-tips .icon {
   font-size: 80px;
-  margin-left: -50px;
 }
 
 .empty-tips .text {
-  text-align: left;
+  text-align: center;
 }
 
 .empty-tips .links {
   line-height: 2em;
+  text-align: center;
 }
 .empty-tips .links a {
   text-decoration: underline;
+  color: #007bff;
+}
+
+/*小屏设备（但不是移动端设备） */
+@media (max-width: 1300px) {
+  .doc-container {
+    display: block;
+  }
+  #content-side {
+    min-width: 300px;
+    margin-left: 300px;
+    margin-top: -10px;
+  }
+  #right-side {
+    display: none;
+  }
 }
 </style>

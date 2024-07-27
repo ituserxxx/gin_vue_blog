@@ -133,18 +133,21 @@ exports.default = {
   delete_tips: 'After deleting it, it can not be restored!',
   attorn_username: 'Username of receiver',
   archive_tips2:
-    'Note: After archiving a project, the project will no longer be able to add and modify content and will not be able to unarchive. If you want to modify the content again, you can copy the project and modify it on the basis of the new project. The way to copy a project is to choose to copy from an existing project when you create the project.',
+    'Note: After archiving a project, the project will no longer be able to add and modify content and will not be able to unarchive. If you want to modify the content again, you can copy the project and modify it on the basis of the new project.',
   success_jump: 'The operation is successful! Skipping...',
   reset_token: 'Reset token',
   open_api_tips1:
     'Showdoc opens the API for document editing, making it easier for users to manipulate document data. <br>With the open API, you can do a lot of things automatically',
   open_api_tips2:
-    'If you want to automate the generation of API documentation, you can refer to<a target="_bank" href="https://www.showdoc.cc/page/741656402509783">API documentation</a>',
+    'If you want to use the runAPI client to generate API documents, you can refer to the <a target="_bank" href="https://www.showdoc.cc/runapi">runapi introduction</a>',
   open_api_tips3:
-    'If you want to automate the generation of a data dictionary, you can refer to<a target="_bank" href="https://www.showdoc.cc/page/312209902620725">Data dictionary</a>',
+    'If you want to automate the generation of API documentation, you can refer to<a target="_bank" href="https://www.showdoc.cc/page/741656402509783">API documentation</a>',
   open_api_tips4:
+    'If you want to automate the generation of a data dictionary, you can refer to<a target="_bank" href="https://www.showdoc.cc/page/312209902620725">Data dictionary</a>',
+  open_api_tips5:
     'If you are more free to generate the format you need, you can refer to<a target="_bank" href="https://www.showdoc.cc/page/102098">Open API</a>',
-  // item/show
+
+    // item/show
   item: 'Item',
   share: 'Share',
   export: 'Export',
@@ -592,5 +595,15 @@ exports.default = {
   do_not_remind_again: 'Don not remind me again',
   no_items: 'No items',
 
-  ai_assistant: 'Ai assistant'
+  ai_assistant: 'Ai assistant',
+
+  create: 'Create',
+
+  search_keyword: 'Please enter search keywords',
+
+  add_sub_page: 'Add Page',
+  add_sub_cat: 'Add Sub Folder',
+  add_si_bling_cat: 'Add Peer Folder',
+  edt_cat: 'Edit Folder',
+  clone_move: 'Clone/Move'
 }
