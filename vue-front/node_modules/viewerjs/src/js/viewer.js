@@ -15,6 +15,7 @@ import {
   CLASS_INVISIBLE,
   DATA_ACTION,
   EVENT_CLICK,
+  EVENT_ERROR,
   EVENT_LOAD,
   EVENT_READY,
   NAMESPACE,
@@ -83,6 +84,7 @@ class Viewer {
     this.viewing = false;
     this.wheeling = false;
     this.zooming = false;
+    this.pointerMoved = false;
     this.id = getUniqueID();
     this.init();
   }
@@ -152,6 +154,7 @@ class Viewer {
           forEach(images, (image) => {
             if (!image.complete) {
               removeListener(image, EVENT_LOAD, progress);
+              removeListener(image, EVENT_ERROR, progress);
             }
           });
         },
@@ -161,7 +164,19 @@ class Viewer {
         if (image.complete) {
           progress();
         } else {
-          addListener(image, EVENT_LOAD, progress, {
+          let onLoad;
+          let onError;
+
+          addListener(image, EVENT_LOAD, onLoad = () => {
+            removeListener(image, EVENT_ERROR, onError);
+            progress();
+          }, {
+            once: true,
+          });
+          addListener(image, EVENT_ERROR, onError = () => {
+            removeListener(image, EVENT_LOAD, onLoad);
+            progress();
+          }, {
             once: true,
           });
         }

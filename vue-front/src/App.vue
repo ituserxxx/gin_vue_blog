@@ -1,9 +1,7 @@
 <template>
-  <div id="app">
     <HeadContainer/>
     <router-view/>
     <BottomContainer/>
-  </div>
 </template>
 <script>
 import HeadContainer from "./components/HeadContainer";

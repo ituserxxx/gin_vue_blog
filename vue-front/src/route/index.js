@@ -5,6 +5,7 @@ import About from '../view/About.vue'
 import Search from '../view/Search.vue'
 import Tag from '../view/Tag.vue'
 import Detail from '../view/Detail.vue'
+import LeaveMessage from '../view/LeaveMessage.vue'
 const routerHistory = createWebHistory()
 const routes = [
     {
@@ -38,6 +39,11 @@ const routes = [
         path:'/Detail',
         name:'Detail',
         component:Detail
+    },
+    {
+        path:'/LeaveMessage',
+        name:'LeaveMessage',
+        component:LeaveMessage
     }
 ]
 const router = createRouter({

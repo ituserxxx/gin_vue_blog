@@ -9,7 +9,7 @@ export default {
     inheritAttrs: false,
     data() {
         return {
-           expname:''
+
         }
     },
     provide() {
@@ -21,7 +21,6 @@ export default {
         value: {
             immediate: true,
             handler(value) {
-                this.expname=value
                 this.$emit('change',value)
             }
         }

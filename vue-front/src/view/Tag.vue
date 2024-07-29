@@ -25,7 +25,7 @@
           <h4>{{ activity.title }}</h4>
         </el-card>
       </el-timeline-item>
-    </div>
+    </div> 
   </el-main>
 </template>
 <script>

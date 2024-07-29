@@ -14,7 +14,7 @@ export default {
     props: {
         title: {
             type: String,
-            default: '' //默认default
+            default: '徽章名称' //默认default
         },
         info: {
             type: String,

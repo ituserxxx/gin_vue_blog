@@ -14,7 +14,7 @@
     <div class="cont">
       <div class="markdown-body" v-html="article.content"></div>
     </div>
-    <!-- <VueMarkdown v-model="article.content" ></VueMarkdown> -->
+    <VueMarkdown v-model="article.content" ></VueMarkdown>
   </el-main>
 </template>
 

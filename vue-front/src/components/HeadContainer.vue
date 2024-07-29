@@ -38,6 +38,7 @@ export default {
         {title: "标签", url: "/Tag"},
         {title: "搜索", url: "/Search"},
         {title: "关于", url: "/About"},
+        {title: "留言", url: "/LeaveMessage"},
       ],
     };
   },

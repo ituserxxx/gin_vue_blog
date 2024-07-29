@@ -1,6 +1,6 @@
 <template>
-  <el-main class="Search">
-    <div style="margin-top: 50px; width: 20% ;margin-left: 40%;">
+   <el-main class="Search">
+   <div style="margin-top: 50px; width: 20% ;margin-left: 40%;">
       <el-input placeholder="搜索一下吧～～" v-model="input_search">
       </el-input>
     </div>
@@ -18,11 +18,7 @@
         </el-card>
       </el-timeline-item>
     </div>
-
-
-    
-
-  </el-main>
+  </el-main> 
 </template>
 
 <script>
@@ -70,6 +66,7 @@ export default {
     },
   },
 };
+
 </script>
 <style>
 .el-select .el-input {

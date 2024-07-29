@@ -28,7 +28,9 @@ http.createServer(function (request, response) {
     if (url === '/blog/tag/list') {
         data = tagList()//此处就是接口返回的数据
     }
-
+    if (url === '/blog/leaveMessage/list') {
+        data = msgList()//此处就是接口返回的数据
+    }
     // 内容类型: text/plain
     response.writeHead(200, {'Content-Type': 'application/json; charset=UTF-8'})
     // 发送响应数据
@@ -68,4 +70,44 @@ function tagList() {
         "tag_name": "Git",
         "article_sum": 2
     }]
+}
+
+function msgList(){
+    return {
+        msg_list :[
+            {
+              content: 'asdfadfadf阿迪斯发斯蒂芬阿第三方阿斯蒂芬asdfadfadf阿迪斯发斯蒂芬阿第三方阿斯蒂芬阿凡达山东发斯蒂芬嘎嘎嘎和她和她人哈你打刚发您多发归纳代发给',
+              timestamp: '2018-04-12 20:46',
+            },
+            {
+              content: 'asdfadfadf阿迪斯发斯蒂芬阿第三方阿斯蒂芬阿凡达山东发斯蒂芬嘎嘎嘎和她和她人哈你打刚发您多发归纳代发给 ',
+              timestamp: '2018-04-12 20:46',
+            }, 
+            {
+                content: 'asdfadfadf阿迪斯发斯蒂芬阿第三方阿斯蒂芬阿凡达山东发斯蒂芬嘎嘎嘎和她和她人哈你打刚发您多发归纳代发给 ',
+                timestamp: '2018-04-12 20:46',
+              }, 
+              {
+                content: 'asdfadfadf阿迪斯发斯蒂芬阿第三方阿斯蒂芬阿凡达山东发斯蒂芬嘎嘎嘎和她和她人哈你打刚发您多发归纳代发给 ',
+                timestamp: '2018-04-12 20:46',
+              }, 
+              {
+                content: 'asdfadfadf阿迪斯发斯蒂芬阿第三方阿斯蒂芬阿凡达山东发斯蒂芬嘎嘎嘎和她和她人哈你打刚发您多发归纳代发给 ',
+                timestamp: '2018-04-12 20:46',
+              }, 
+              {
+                content: 'asdfadfadf阿迪斯发斯蒂芬阿第三方阿斯蒂芬阿凡达山东发斯蒂芬嘎嘎嘎和她和她人哈你打刚发您多发归纳代发给 ',
+                timestamp: '2018-04-12 20:46',
+              }, 
+              {
+                content: 'asdfadfadf阿迪斯发斯蒂芬阿第三方阿斯蒂芬阿凡达山东发斯蒂芬嘎嘎嘎和她和她人哈你打刚发您多发归纳代发给 ',
+                timestamp: '2018-04-12 20:46',
+              }, 
+              {
+                content: 'asdfadfadf阿迪斯发斯蒂芬阿第三方阿斯蒂芬阿凡达山东发斯蒂芬嘎嘎嘎和她和她人哈你打刚发您多发归纳代发给 ',
+                timestamp: '2018-04-12 20:46',
+              }
+          ],
+          total :30
+    }
 }

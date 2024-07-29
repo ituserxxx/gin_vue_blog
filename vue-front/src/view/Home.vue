@@ -4,7 +4,7 @@
   </el-main>
 </template>
 <script>
-import ArticleListContainer from "../components/ArticleListContainer.vue";
+import ArticleListContainer from "../components/ArticleListContainer";
 export default {
   name: "Home",
   components: {

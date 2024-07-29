@@ -1,7 +1,6 @@
 <template>
   <div class="ArticleListContainer">
     <router-view />
-<!--    <el-empty :image-size="200" v-if="is_empty"></el-empty>-->
     <div class="list">
       <div style="height:20px"></div>
       <el-timeline-item

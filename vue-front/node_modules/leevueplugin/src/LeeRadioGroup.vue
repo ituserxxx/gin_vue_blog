@@ -21,7 +21,7 @@ export default {
         },
         size:{
             type:String,
-            default:''
+            default:'s'
         },
         type:{
             type:String,

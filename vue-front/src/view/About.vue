@@ -1,6 +1,6 @@
 <template>
-  <el-main class="About">
-    <div class="div_content" style="witdh: 600px">
+ <el-main class="About">
+     <div class="div_content" style="witdh: 600px">
       <el-timeline-item placement="top">
         <el-card>
           <h2>Vtian welcome to here~</h2>
@@ -30,58 +30,58 @@
         </el-card>
       </el-timeline-item>
     </div>
-  </el-main>
+  </el-main> 
 </template>
 
 <script>
 export default {
   name: "About",
-  data(){
-    return{
-        jn:[
-          {
-            name:"php",
-            color:"#2D3540",
-            socre:70,
-          },
-          {
-            name:"golang",
-            color:"#37404D",
-            socre:80,
-          },
-          {
-            name:"mysql",
-            color:"#63526E",
-            socre:75,
-          },
-          {
-            name:"docker",
-            color:"#9C86BA",
-            socre:70,
-          },
-          {
-            name:"redis",
-            color:"#AE684E",
-            socre:65,
-          },
-          {
-            name:"vue",
-            color:"#716161",
-            socre:60,
-          },
-          {
-            name:"rust",
-            color:"#3C3D3F",
-            socre:50,
-          },
-          {
-            name:"python",
-            color:"#661F33",
-            socre:70,
-          }
-        ]
-    }
-  },
+//   data(){
+//     return{
+//         jn:[
+//           {
+//             name:"php",
+//             color:"#2D3540",
+//             socre:70,
+//           },
+//           {
+//             name:"golang",
+//             color:"#37404D",
+//             socre:80,
+//           },
+//           {
+//             name:"mysql",
+//             color:"#63526E",
+//             socre:75,
+//           },
+//           {
+//             name:"docker",
+//             color:"#9C86BA",
+//             socre:70,
+//           },
+//           {
+//             name:"redis",
+//             color:"#AE684E",
+//             socre:65,
+//           },
+//           {
+//             name:"vue",
+//             color:"#716161",
+//             socre:60,
+//           },
+//           {
+//             name:"rust",
+//             color:"#3C3D3F",
+//             socre:50,
+//           },
+//           {
+//             name:"python",
+//             color:"#661F33",
+//             socre:70,
+//           }
+//         ]
+//     }
+//   },
 };
 </script>
 
